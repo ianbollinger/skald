@@ -9,16 +9,11 @@ Elm.Native.Skald.make = function(elm) {
 
 	function scrollToBottom(ignored)
 	{
-		var element = document.getElementById("field");
 		var d = document;
 		var height = Math.max(
 			d.body.scrollHeight || d.documentElement.scrollHeight,
 			d.body.offsetHeight || d.documentElement.offsetHeight,
 			d.body.clientHeight || d.documentElement.clientHeight);
-		if (element != null)
-		{
-			element.scrollIntoView({block: "end"});
-		}
 		window.scrollTo(0, height);
 		return ignored;
 	}
