@@ -26,7 +26,7 @@ update tale action model =
       model
 
     UpdateField string ->
-      Model.updateInputField string model
+      Model.setInputField string model
 
     SubmitField ->
       if String.isEmpty (Model.inputField model)
@@ -46,7 +46,7 @@ submitField tale model =
     model
       |> Model.appendHistory (echo tale model :: commandResult)
       |> Model.clearInputField
-      |> Model.updateWorld newWorld
+      |> Model.setWorld newWorld
 
 
 {-| Copies the contents of the input field to the tale's history.
@@ -190,7 +190,7 @@ heading string =
 
 enterPlace : String -> World -> (List Html, World)
 enterPlace name world =
-  World.updateCurrentPlaceName name world
+  World.setCurrentPlaceName name world
     |> describePlace name
 
 

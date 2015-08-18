@@ -33,7 +33,7 @@ startUp tale model =
     (description, newWorld) =
       enterPlace (Place.name (Tale.initialPlace tale)) (Model.world newModel)
   in
-    Model.updateWorld newWorld newModel
+    Model.setWorld newWorld newModel
       |> Model.appendHistory description
 
 
@@ -42,6 +42,6 @@ startUp tale model =
 copyTaleIntoModel : Tale -> Model -> Model
 copyTaleIntoModel tale model =
   let
-    newPlaces = World.updatePlaces (Tale.places tale) (Model.world model)
+    newPlaces = World.setPlaces (Tale.places tale) (Model.world model)
   in
-    Model.updateWorld newPlaces model
+    Model.setWorld newPlaces model

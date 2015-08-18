@@ -4,10 +4,10 @@ module Skald.Model
   , appendHistory
   , history
   , inputField
-  , updateInputField
+  , setInputField
   , clearInputField
   , world
-  , updateWorld
+  , setWorld
   ) where
 
 import Array as Array exposing (Array)
@@ -62,10 +62,10 @@ inputField (Model model) =
   model.field
 
 
-{-| Updates the contents of the input field.
+{-| Sets the contents of the input field.
 -}
-updateInputField : String -> Model -> Model
-updateInputField string (Model model) =
+setInputField : String -> Model -> Model
+setInputField string (Model model) =
   Model { model | field <- string }
 
 
@@ -83,8 +83,8 @@ world (Model model) =
   model.world
 
 
-{-| Updates the world in the given model.
+{-| Sets the world in the given model.
 -}
-updateWorld : World -> Model -> Model
-updateWorld newWorld (Model model) =
+setWorld : World -> Model -> Model
+setWorld newWorld (Model model) =
   Model { model | world <- newWorld }

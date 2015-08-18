@@ -1,8 +1,8 @@
 module Skald.World
   ( World
   , currentPlaceName
-  , updateCurrentPlaceName
-  , updatePlaces
+  , setCurrentPlaceName
+  , setPlaces
   , getPlace
   , currentPlace
   , removeObject
@@ -40,10 +40,10 @@ currentPlaceName (World world) =
   world.currentPlace
 
 
-{-| Update the current place (by name) for the given world.
+{-| Set the current place (by name) for the given world.
 -}
-updateCurrentPlaceName : String -> World -> World
-updateCurrentPlaceName placeName (World world) =
+setCurrentPlaceName : String -> World -> World
+setCurrentPlaceName placeName (World world) =
   World { world | currentPlace <- placeName }
 
 
@@ -54,10 +54,10 @@ places (World world) =
   world.places
 
 
-{-| Update the places contained in the given world.
+{-| Sets the places contained in the given world.
 -}
-updatePlaces : Dict String Place -> World -> World
-updatePlaces places (World world) =
+setPlaces : Dict String Place -> World -> World
+setPlaces places (World world) =
   World { world | places <- places }
 
 
@@ -79,23 +79,25 @@ currentPlace world =
   getPlace (currentPlaceName world) world
 
 
+{-| Sets the current place in the given world.
+-}
+setCurrentPlace : Place -> World -> World
+setCurrentPlace place world =
+  let
+    newPlaces = Dict.insert (currentPlaceName world) place (places world)
+  in
+    setPlaces newPlaces world
+
+
+{-|
+-}
+updateCurrentPlace : (Place -> Place) -> World -> World
+updateCurrentPlace f world =
+  setCurrentPlace (f (currentPlace world)) world
+
+
 {-| Removes an object with the given name from the current place.
 -}
 removeObject : String -> World -> World
 removeObject name world =
-  let
-    currentPlace' = currentPlace world
-    -- TODO: combine getter/setter?
-    newPlace = Place.updateContents (Dict.remove name) currentPlace'
-  in
-    updateCurrentPlace newPlace world
-
-
-{-| Updates the current place in the given world.
--}
-updateCurrentPlace : Place -> World -> World
-updateCurrentPlace place world =
-  let
-    newPlaces = Dict.insert (currentPlaceName world) place (places world)
-  in
-    updatePlaces newPlaces world
+  updateCurrentPlace (Place.updateContents (Dict.remove name)) world
