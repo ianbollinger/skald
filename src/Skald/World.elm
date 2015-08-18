@@ -9,10 +9,12 @@ module Skald.World
   , currentPlace
   , setCurrentPlace
   , removeObject
+  , addObject
   , commands
   , setCommands
   , updateCommands
   , inventory
+  , item
   , updateInventory
   ) where
 
@@ -23,7 +25,7 @@ import Dict exposing (Dict)
 import Html exposing (Html)
 import Regex exposing (Regex)
 
-import Skald.Object exposing (Object)
+import Skald.Object as Object exposing (Object)
 import Skald.Place as Place exposing (Place)
 
 
@@ -122,11 +124,24 @@ updateCurrentPlace f world =
   setCurrentPlace (f (currentPlace world)) world
 
 
-{-| Removes an object with the given name from the current place.
+{-| Removes the object from the current place.
 -}
-removeObject : String -> World -> World
-removeObject name world =
-  updateCurrentPlace (Place.updateContents (Dict.remove name)) world
+removeObject : Object -> World -> World
+removeObject object world =
+  let
+    update = Place.updateContents (Dict.remove (Object.name object))
+  in
+    updateCurrentPlace update world
+
+
+{-| Adds an object to the current place.
+-}
+addObject : Object -> World -> World
+addObject object world =
+  let
+    update = Place.updateContents (Dict.insert (Object.name object) object)
+  in
+    updateCurrentPlace update world
 
 
 {-|
@@ -156,6 +171,12 @@ inventory : World -> Inventory
 inventory (World world) =
   world.inventory
 
+
+{-| Returns the item with the given name from the inventory if it exists.
+-}
+item : String -> World -> Maybe Object
+item name (World world) =
+  Dict.get name world.inventory
 
 {-|
 -}

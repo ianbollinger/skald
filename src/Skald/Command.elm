@@ -103,6 +103,7 @@ defaultMap =
   insert "(?:examine|look(?:\\s+at)?|x)(?:\\s+(\\S*))?" look []
     |> insert "go(?:\\s+to)?(?:\\s+(\\S*))?" go
     |> insert "(?:take|get)(?:\\s+(\\S*))?" take
+    |> insert "(?:drop)(?:\\s+(\\S*))?" drop
 
 
 -- TODO: rename
@@ -183,6 +184,24 @@ take args world =
 
 {-|
 -}
+drop : Handler
+drop args world =
+  case args of
+    [ name ] ->
+      case World.item name world of
+        Just found ->
+          removeFromInventory found world
+            `andThen` createObject found
+            `andThen` say ("You drop the **" ++ name ++ "**.")
+
+        Nothing ->
+          error "You don't have such a thing." world
+
+    _ ->
+      error "Drop what?" world
+
+{-|
+-}
 andThen : Result -> Command -> Result
 andThen (html1, world) f =
   let
@@ -198,9 +217,18 @@ lift : (World -> World) -> Command
 lift f world = ([], f world)
 
 
-
+{-|
+-}
 destroyObject : Object -> Command
-destroyObject object = lift (World.removeObject (Object.name object))
+destroyObject object =
+  lift (World.removeObject object)
+
+
+{-|
+-}
+createObject : Object -> Command
+createObject object =
+  lift (World.addObject object)
 
 
 {-|
@@ -212,8 +240,16 @@ addToInventory object =
 
 {-|
 -}
+removeFromInventory : Object -> Command
+removeFromInventory object =
+  lift (World.updateInventory (Dict.remove (Object.name object)))
+
+
+{-|
+-}
 doNothing : Command
-doNothing world = ([], world)
+doNothing world =
+  ([], world)
 
 
 {-| See `Skald.elm` for documentation.
