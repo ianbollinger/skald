@@ -19,7 +19,7 @@ import Markdown
 import Regex exposing (regex)
 import String
 
-import Skald.Object as Object
+import Skald.Object as Object exposing (Object)
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
 import Skald.World as World exposing (World, CommandMap, CommandHandler)
@@ -37,11 +37,19 @@ type alias Handler = CommandHandler
 
 {-|
 -}
-parse : String -> World -> (List Html, World)
+type alias Result = (List Html, World)
+
+
+{-|
+-}
+type alias Command = World -> Result
+
+
+{-|
+-}
+parse : String -> Command
 parse field world =
   let
-    -- TODO: trim trailing whitespace.
-    -- TODO: make case-insensitive.
     matcher (regex, command) =
       (Regex.find (Regex.AtMost 1) regex field, command)
     predicate (x, _) = not (List.isEmpty x)
@@ -110,10 +118,15 @@ look args world =
     [ name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
-          say (Object.description found) world
+          describeObject found world
 
         Nothing ->
           error "You can't see such a thing." world
+
+
+describeObject : Object -> Command
+describeObject object =
+  say (Object.description object)
 
 
 {-|
@@ -153,7 +166,7 @@ take args world =
 
 {-|
 -}
-(&) : (List Html, World) -> (World -> (List Html, World)) -> (List Html, World)
+(&) : Result -> Command -> Result
 (&) (html1, world) f =
   let
     (html2, world2) = f world
@@ -163,20 +176,20 @@ take args world =
 
 {-|
 -}
-doNothing : World -> (List Html, World)
+doNothing : Command
 doNothing world = ([], world)
 
 
 {-| See `Skald.elm` for documentation.
 -}
-say : String -> World -> (List Html, World)
+say : String -> Command
 say string world =
   ([format string], world)
 
 
 {-| See `Skald.elm` for documentation.
 -}
-error : String -> World -> (List Html, World)
+error : String -> Command
 error string world =
   ([formatError string], world)
 
@@ -185,7 +198,7 @@ error string world =
 -- TODO: why don't these functions take Places directly?
 {-|
 -}
-enterPlace : String -> World -> (List Html, World)
+enterPlace : String -> Command
 enterPlace name world =
   World.setCurrentPlaceName name world
     |> describePlace name
@@ -193,7 +206,7 @@ enterPlace name world =
 
 {-|
 -}
-describePlace : String -> World -> (List Html, World)
+describePlace : String -> Command
 describePlace name world =
   let
     place = World.getPlace name world
