@@ -16,10 +16,11 @@ import Skald.Place exposing (Place)
 
 {-| See `Skald.elm` for documentation.
 -}
-type World = World
-  { currentPlace : String
-  , places : Dict String Place
-  }
+type World =
+  World
+    { currentPlace : String
+    , places : Dict String Place
+    }
 
 
 {-| An empty world.

@@ -26,22 +26,23 @@ import Skald.Style as Style
 
 {-| See `Skald.elm` for documentation.
 -}
-type Tale = Tale
-  { title : String
-  , author : String
-  , initialPlace : Place
-  , places : Dict String Place
-  , preamble : Tale -> Html
-  , pageStyle : Attribute
-  , headerStyle : Attribute
-  , titleStyle : Attribute
-  , byLineStyle : Attribute
-  , historyStyle : Attribute
-  , echoStyle : Attribute
-  , errorStyle : Attribute
-  , inputStyle : Attribute
-  , fieldStyle : Attribute
-  }
+type Tale =
+  Tale
+    { title : String
+    , author : String
+    , initialPlace : Place
+    , places : Dict String Place
+    , preamble : Tale -> Html
+    , pageStyle : Attribute
+    , headerStyle : Attribute
+    , titleStyle : Attribute
+    , byLineStyle : Attribute
+    , historyStyle : Attribute
+    , echoStyle : Attribute
+    , errorStyle : Attribute
+    , inputStyle : Attribute
+    , fieldStyle : Attribute
+    }
 
 
 {-| See `Skald.elm` for documentation.
