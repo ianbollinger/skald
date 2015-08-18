@@ -17,7 +17,8 @@ type alias World =
   }
 
 
--- Retrieves the place with the given name from the given world.
+{-| Retrieves the place with the given name from the given world.
+-}
 getPlace : String -> World -> Place
 getPlace name world =
   case Dict.get name world.places of
@@ -25,6 +26,8 @@ getPlace name world =
     Nothing -> Skald.Place.empty
 
 
+{-| Retrieves the current place from the given world.
+-}
 getCurrentPlace : World -> Place
 getCurrentPlace world =
   getPlace world.currentPlace world
