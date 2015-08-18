@@ -275,7 +275,7 @@ withPlace place (Tale tale) =
 -}
 withCommand : String -> CommandHandler -> Tale -> Tale
 withCommand pattern handler (Tale tale) =
-  length
+  let
     update x = (regex pattern |> Regex.caseInsensitive, handler) :: x
     newWorld = World.updateCommands update tale.initialWorld
   in

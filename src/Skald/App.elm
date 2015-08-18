@@ -35,8 +35,8 @@ startUp tale model =
   let
     newModel = Model.setWorld (Tale.initialWorld tale) model
     world = Model.world newModel
-    place = World.currentPlaceName world
-    (description, newWorld) = Command.enterPlace place world
+    (description, newWorld) =
+      Command.enterPlace (World.currentPlaceName world) world
   in
     Model.setWorld newWorld newModel
       |> Model.appendHistory description
