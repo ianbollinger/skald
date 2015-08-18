@@ -264,17 +264,19 @@ thatBeginsIn place (Tale tale) =
 -}
 withPlace : Place -> Tale -> Tale
 withPlace place (Tale tale) =
-  Tale
-    { tale
-    | initialWorld <- World.updatePlaces (Dict.insert (Place.name place) place) tale.initialWorld
-    }
+  let
+    update = Dict.insert (Place.name place) place
+    newWorld = World.updatePlaces update tale.initialWorld
+  in
+    Tale { tale | initialWorld <- newWorld }
 
 
 {-| See `Skald.elm` for documentation.
 -}
 withCommand : String -> CommandHandler -> Tale -> Tale
 withCommand pattern handler (Tale tale) =
-  Tale
-    { tale
-    | initialWorld <- World.updateCommands (\x -> (regex pattern |> Regex.caseInsensitive, handler) :: x) tale.initialWorld
-    }
+  length
+    update x = (regex pattern |> Regex.caseInsensitive, handler) :: x
+    newWorld = World.updateCommands update tale.initialWorld
+  in
+    Tale { tale | initialWorld <- newWorld }
