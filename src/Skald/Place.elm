@@ -32,7 +32,7 @@ place name description =
   }
 
 
-{-| See `Skald.elm` for documentation.
+{-| An empty place.
 -}
 empty : Place
 empty =
