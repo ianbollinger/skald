@@ -34,8 +34,9 @@ update tale action model =
         else submitField tale model
 
 
--- Submits the contents of the input field to the command parser and then clears
--- the field.
+{-| Submits the contents of the input field to the command parser and the
+clears the field.
+-}
 submitField : Tale -> Model -> Model
 submitField tale model =
   let
@@ -47,7 +48,8 @@ submitField tale model =
       |> Model.updateWorld newWorld
 
 
--- Copies the contents of the input field to the tale's history.
+{-| Copies the contents of the input field to the tale's history.
+-}
 echo : Tale -> Model -> Html
 echo (Skald.Tale.Tale tale) model =
   Html.p [ tale.echoStyle ] [ Html.text (model.field) ]
