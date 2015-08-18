@@ -3,6 +3,7 @@ module Skald.World
   ( World
   , getPlace
   , getCurrentPlace
+  , removeObject
   ) where
 
 import Dict exposing (Dict)
@@ -27,3 +28,15 @@ getPlace name world =
 getCurrentPlace : World -> Place
 getCurrentPlace world =
   getPlace world.currentPlace world
+
+
+{-| Removes an object with the given name from the current place.
+-}
+removeObject : String -> World -> World
+removeObject name world =
+  let
+    currentPlace = getCurrentPlace world
+    newPlace =
+      { currentPlace | contents <- Dict.remove name currentPlace.contents }
+  in
+    { world | places <- Dict.insert world.currentPlace newPlace world.places }

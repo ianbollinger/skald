@@ -14,7 +14,7 @@ import Skald.Model exposing (Model, appendHistory)
 import Skald.Place exposing (Place)
 import Skald.Style as Style
 import Skald.Tale exposing (Tale)
-import Skald.World exposing (World, getPlace, getCurrentPlace)
+import Skald.World as World exposing (World, getPlace, getCurrentPlace)
 
 -- update ----------------------------------------------------------------------
 
@@ -146,25 +146,14 @@ take args world =
         Just found ->
           -- TODO: algorithmically determine article and allow per-object
           -- customization.
-          say ("You take the **" ++ name ++ "**.") (removeObject name world)
+          say ("You take the **" ++ name ++ "**.")
+            <| World.removeObject name world
 
         Nothing ->
           error "You can't see such a thing." world
 
     _ ->
       error "Take what?" world
-
-
-{- Removes an object with the given name from the current place.
--}
-removeObject : String -> World -> World
-removeObject name world =
-  let
-    currentPlace = getCurrentPlace world
-    newPlace =
-      { currentPlace | contents <- Dict.remove name currentPlace.contents }
-  in
-    { world | places <- Dict.insert world.currentPlace newPlace world.places }
 
 
 parseCommand : String -> World -> (List Html, World)
