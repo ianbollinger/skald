@@ -152,7 +152,7 @@ go args world =
     [ direction ] ->
       case Place.exitName direction (World.currentPlace world) of
         Just newPlace ->
-          enterPlace newPlace world
+          enterPlace (World.getPlace newPlace world) world
 
         Nothing ->
           error "You can't go that way." world
@@ -169,9 +169,9 @@ take args world =
     [ name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
-          say ("You take the **" ++ name ++ "**.")
-            <| World.removeObject name
-            <| World.updateInventory (Dict.insert name found) world
+          addToInventory found world
+            `andThen` destroyObject found
+            `andThen` say ("You take the **" ++ name ++ "**.")
 
         Nothing ->
           error "You can't see such a thing." world
@@ -182,12 +182,31 @@ take args world =
 
 {-|
 -}
-(&) : Result -> Command -> Result
-(&) (html1, world) f =
+andThen : Result -> Command -> Result
+andThen (html1, world) f =
   let
     (html2, world2) = f world
   in
     (html1 ++ html2, world2)
+
+
+-- TODO: rename.
+{-| Converts a function over worlds into a command.
+-}
+lift : (World -> World) -> Command
+lift f world = ([], f world)
+
+
+
+destroyObject : Object -> Command
+destroyObject object = lift (World.removeObject (Object.name object))
+
+
+{-|
+-}
+addToInventory : Object -> Command
+addToInventory object =
+  lift (World.updateInventory (Dict.insert (Object.name object) object))
 
 
 {-|
@@ -211,13 +230,12 @@ error string world =
 
 -- place -----------------------------------------------------------------------
 
--- TODO: why don't these functions take Places directly?
 {-|
 -}
-enterPlace : String -> Command
-enterPlace name world =
-  World.setCurrentPlaceName name world
-    |> describePlace (World.getPlace name world)
+enterPlace : Place -> Command
+enterPlace place world =
+  World.setCurrentPlace place world
+    |> describePlace place
 
 
 {-| See `Skald.elm` for documentation.

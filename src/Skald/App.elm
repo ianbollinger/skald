@@ -36,7 +36,7 @@ startUp tale model =
     newModel = Model.setWorld (Tale.initialWorld tale) model
     world = Model.world newModel
     (description, newWorld) =
-      Command.enterPlace (World.currentPlaceName world) world
+      Command.enterPlace (World.currentPlace world) world
   in
     Model.setWorld newWorld newModel
       |> Model.appendHistory description

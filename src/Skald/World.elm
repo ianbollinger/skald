@@ -3,8 +3,6 @@ module Skald.World
   , CommandHandler
   , CommandMap
   , empty
-  , currentPlaceName
-  , setCurrentPlaceName
   , setPlaces
   , updatePlaces
   , getPlace
@@ -68,20 +66,6 @@ empty =
     }
 
 
-{-| The current place for the given world.
--}
-currentPlaceName : World -> String
-currentPlaceName (World world) =
-  world.currentPlace
-
-
-{-| Set the current place (by name) for the given world.
--}
-setCurrentPlaceName : String -> World -> World
-setCurrentPlaceName placeName (World world) =
-  World { world | currentPlace <- placeName }
-
-
 {-| The places contained in the given world.
 -}
 places : World -> Dict String Place
@@ -117,18 +101,18 @@ getPlace name world =
 {-| Retrieves the current place from the given world.
 -}
 currentPlace : World -> Place
-currentPlace world =
-  getPlace (currentPlaceName world) world
+currentPlace (World world) =
+  getPlace world.currentPlace (World world)
 
 
 {-| Sets the current place in the given world.
 -}
 setCurrentPlace : Place -> World -> World
-setCurrentPlace place world =
+setCurrentPlace place (World world) =
   let
-    newPlaces = Dict.insert (currentPlaceName world) place (places world)
+    newPlaces = Dict.insert world.currentPlace place (places (World world))
   in
-    setPlaces newPlaces world
+    setPlaces newPlaces (World world)
 
 
 {-|
