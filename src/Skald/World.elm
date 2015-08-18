@@ -86,7 +86,15 @@ removeObject name world =
     currentPlace' = currentPlace world
     newPlace =
       { currentPlace' | contents <- Dict.remove name currentPlace'.contents }
-    newPlaces =
-      Dict.insert (currentPlaceName world) newPlace (places world)
+  in
+    updateCurrentPlace newPlace world
+
+
+{-| Updates the current place in the given world.
+-}
+updateCurrentPlace : Place -> World -> World
+updateCurrentPlace place world =
+  let
+    newPlaces = Dict.insert (currentPlaceName world) place (places world)
   in
     updatePlaces newPlaces world

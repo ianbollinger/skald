@@ -11,6 +11,7 @@ import String
 
 import Skald.Action exposing (Action (..))
 import Skald.Model as Model exposing (Model)
+import Skald.Object as Object
 import Skald.Place exposing (Place)
 import Skald.Style as Style
 import Skald.Tale exposing (Tale)
@@ -114,7 +115,7 @@ look args world =
         Just found ->
           -- TODO: algorithmically determine article and allow per-object
           -- customization.
-          say found.description world
+          say (Object.description found) world
 
         Nothing ->
           error "You can't see such a thing." world

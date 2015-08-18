@@ -8,7 +8,7 @@ module Skald.Place
 
 import Dict exposing (Dict)
 
-import Skald.Object exposing (Object)
+import Skald.Object as Object exposing (Object)
 
 
 type alias Place =
@@ -41,4 +41,4 @@ withExit exit to from =
 
 withObject : Object -> Place -> Place
 withObject object place =
-  { place | contents <- Dict.insert object.name object place.contents }
+  { place | contents <- Dict.insert (Object.name object) object place.contents }
