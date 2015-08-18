@@ -43,20 +43,8 @@ submitField tale model =
   in
     model
       |> Model.appendHistory (echo tale model :: commandResult)
-      |> clearInputField
-      |> updateWorld newWorld
-
-
--- Clears the input field.
-clearInputField : Model -> Model
-clearInputField model =
-  { model | field <- "" }
-
-
--- Updates the world in the tale's model.
-updateWorld : World -> Model -> Model
-updateWorld newWorld model =
-  { model | world <- newWorld }
+      |> Model.clearInputField
+      |> Model.updateWorld newWorld
 
 
 -- Copies the contents of the input field to the tale's history.
