@@ -5,12 +5,14 @@ main =
     |> by "Ian D. Bollinger"
     |> thatBeginsIn theRoom
     |> withPlace otherRoom
-    |> withCommand "think" think
+    |> withCommand "^\\s*think(?:\\s+about)?(?:\\s+(\\S+))?\\s*$" think
     |> run
 
 think args =
-  case args of
-    _ ->
+  case args.submatches of
+    [ Just x ] ->
+      error "Thinking about that yields no new insight."
+    [ Nothing ] ->
       error "When has that solved anything?"
 
 theRoom =

@@ -35,6 +35,7 @@ module Skald.Tale
 
 import Dict exposing (Dict)
 import Html exposing (Html, Attribute)
+import Regex exposing (regex)
 
 import Skald.Command exposing (emptyWorld)
 import Skald.Place as Place exposing (Place)
@@ -265,7 +266,6 @@ withPlace : Place -> Tale -> Tale
 withPlace place (Tale tale) =
   Tale
     { tale
-    -- TODO: use update function.
     | initialWorld <- World.updatePlaces (Dict.insert (Place.name place) place) tale.initialWorld
     }
 
@@ -273,9 +273,8 @@ withPlace place (Tale tale) =
 {-| See `Skald.elm` for documentation.
 -}
 withCommand : String -> CommandHandler -> Tale -> Tale
-withCommand name handler (Tale tale) =
+withCommand pattern handler (Tale tale) =
   Tale
     { tale
-    -- TODO: use update function.
-    | initialWorld <- World.updateCommands (Dict.insert name handler) tale.initialWorld
+    | initialWorld <- World.updateCommands (\x -> (regex pattern |> Regex.caseInsensitive, handler) :: x) tale.initialWorld
     }

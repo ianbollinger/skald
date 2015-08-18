@@ -13,7 +13,9 @@ module Skald.Command
 
 import Dict exposing (Dict)
 import Html exposing (Html)
+import List
 import Markdown
+import Regex exposing (regex)
 import String
 
 import Skald.Object as Object
@@ -37,32 +39,51 @@ type alias Handler = CommandHandler
 parse : String -> World -> (List Html, World)
 parse field world =
   let
-    words = String.words (String.toLower field)
+    -- TODO: trim trailing whitespace.
+    -- TODO: make case-insensitive.
+    matcher (regex, command) =
+      (Regex.find (Regex.AtMost 1) regex field, command)
+    predicate (x, _) = not (List.isEmpty x)
   in
-    case words of
-      x :: xs ->
-        case Dict.get x (World.commands world) of
-          Just command ->
-            command xs world
+    case mapFirst matcher predicate (World.commands world) of
+      Just (match, command) ->
+        case List.head match of
+          Just match' ->
+            command match' world
 
           Nothing ->
             error "I'm afraid I didn't understand that." world
 
-      _ ->
-        -- TODO: this is impossible.
+      Nothing ->
         error "I'm afraid I didn't understand that." world
+
+
+{-| Applies operation only to the first element in the given list that satisfies
+the predicate; returns Nothing if no element suffices.
+-}
+mapFirst : (a -> b) -> (b -> Bool) -> List a -> Maybe b
+mapFirst operation predicate list =
+  case list of
+    [] ->
+      Nothing
+
+    x :: xs ->
+      let
+        y = operation x
+      in
+        if predicate y
+          then Just y
+          else mapFirst operation predicate xs
 
 
 {-|
 -}
 defaultMap : Map
 defaultMap =
-  Dict.empty
-    |> Dict.insert "look" look
-    |> Dict.insert "examine" look
-    |> Dict.insert "go" go
-    |> Dict.insert "take" take
-    |> Dict.insert "get" take
+  [ (regex "^\\s*(?:examine|look(?:\\s+at)?|x)(?:\\s+(\\S*))?\\s*$" |> Regex.caseInsensitive, look)
+  , (regex "^\\s*go(?:\\s+to)?(?:\\s+(\\S*))?\\s*$" |> Regex.caseInsensitive, go)
+  , (regex "^\\s*(?:take|get)(?:\\s+(\\S*))?\\s*$" |> Regex.caseInsensitive, take)
+  ]
 
 
 -- TODO: rename
@@ -77,11 +98,11 @@ emptyWorld =
 -}
 look : Handler
 look args world =
-  case args of
-    [] ->
+  case args.submatches of
+    [ Nothing ] ->
       describePlace (World.currentPlaceName world) world
 
-    [ name ] ->
+    [ Just name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
           say (Object.description found) world
@@ -97,8 +118,8 @@ look args world =
 -}
 go : Handler
 go args world =
-  case args of
-    [ exit ] ->
+  case args.submatches of
+    [ Just exit ] ->
       case Dict.get exit (Place.exits (World.currentPlace world)) of
         Just newPlace ->
           enterPlace newPlace world
@@ -114,8 +135,8 @@ go args world =
 -}
 take : Handler
 take args world =
-  case args of
-    [ name ] ->
+  case args.submatches of
+    [ Just name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
           say ("You take the **" ++ name ++ "**.")

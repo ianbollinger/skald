@@ -21,18 +21,19 @@ module Skald.World
 
 import Dict exposing (Dict)
 import Html exposing (Html)
+import Regex exposing (Regex)
 
 import Skald.Place as Place exposing (Place)
 
 
 {-|
 -}
-type alias CommandHandler = List String -> World -> (List Html, World)
+type alias CommandHandler = Regex.Match -> World -> (List Html, World)
 
 
 {-|
 -}
-type alias CommandMap = Dict String CommandHandler
+type alias CommandMap = List (Regex, CommandHandler)
 
 
 
@@ -54,7 +55,7 @@ empty =
   World
     { currentPlace = ""
     , places = Dict.empty
-    , commands = Dict.empty
+    , commands = []
     }
 
 
