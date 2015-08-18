@@ -21,6 +21,7 @@ module Skald
   , object
   , say
   , error
+  , doNothing
   ) where
 
 
@@ -46,7 +47,7 @@ module Skald
 
 # commands
 
-@docs say, error
+@docs say, error, doNothing
 -}
 
 import Html exposing (Attribute, Html)
@@ -228,6 +229,12 @@ object =
   Skald.Object.object
 
 -- command ---------------------------------------------------------------------
+
+{-|
+-}
+doNothing : World -> (List Html, World)
+doNothing =
+  Skald.Command.doNothing
 
 
 {-|

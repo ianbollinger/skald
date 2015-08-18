@@ -2,6 +2,7 @@ module Skald.Command
   ( Handler
   , parse
   , enterPlace
+  , doNothing
   , say
   , error
   , emptyWorld
@@ -137,6 +138,12 @@ take args world =
     (html1 ++ html2, world2)
 
 
+{-|
+-}
+doNothing : World -> (List Html, World)
+doNothing world = ([], world)
+
+
 {-| See `Skald.elm` for documentation.
 -}
 say : String -> World -> (List Html, World)
@@ -152,6 +159,7 @@ error string world =
 
 -- place -----------------------------------------------------------------------
 
+-- TODO: why don't these functions take Places directly?
 {-|
 -}
 enterPlace : String -> World -> (List Html, World)
