@@ -14,36 +14,36 @@ import Signal exposing (Address)
 import Native.Skald
 import Skald.Action exposing (Action (..))
 import Skald.Model as Model exposing (Model)
-import Skald.Tale exposing (Tale (Tale))
+import Skald.Tale as Tale exposing (Tale)
 
 
 view : Tale -> Address Action -> Model -> Html
-view (Tale tale) address model =
+view tale address model =
   -- TODO: this needs to be moved to where it will work 100% of the time.
   Native.Skald.scrollToBottom <|
-    Html.article [ tale.pageStyle ]
-      [ tale.preamble (Tale tale)
-      , history (Tale tale) (Model.history model)
-      , inputField (Tale tale) address (Model.inputField model)
+    Html.article [ Tale.pageStyle tale ]
+      [ Tale.preamble tale tale
+      , history tale (Model.history model)
+      , inputField tale address (Model.inputField model)
       ]
 
 
 history : Tale -> Array Html -> Html
-history (Tale tale) entries =
+history tale entries =
   -- TODO: having to convert back to a list seems to negate the benefit of
   -- using an array.
-  Html.div [ tale.historyStyle ] (Array.toList entries)
+  Html.div [ Tale.historyStyle tale ] (Array.toList entries)
 
 
 inputField : Tale -> Address Action -> String -> Html
-inputField (Tale tale) address string =
-  Html.div [ tale.inputStyle ]
+inputField tale address string =
+  Html.div [ Tale.inputStyle tale ]
     [ input
       [ autofocus True
       , value string
       , on "input" targetValue (Signal.message address << UpdateField)
       , onEnter address SubmitField
-      , tale.fieldStyle
+      , Tale.fieldStyle tale
       ]
       []
     ]

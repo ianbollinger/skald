@@ -1,7 +1,20 @@
 module Skald.Tale
-  -- TODO: don't expose pattern.
-  ( Tale (Tale)
+  ( Tale
   , tale
+  , title
+  , author
+  , initialPlace
+  , places
+  , preamble
+  , pageStyle
+  , headerStyle
+  , titleStyle
+  , byLineStyle
+  , historyStyle
+  , echoStyle
+  , errorStyle
+  , inputStyle
+  , fieldStyle
   , by
   , withPreamble
   , withPageStyle
@@ -65,6 +78,90 @@ tale title =
     , inputStyle = Style.inputDefault
     , fieldStyle = Style.fieldDefault
     }
+
+
+{-|
+-}
+title : Tale -> String
+title (Tale tale) = tale.title
+
+
+{-|
+-}
+author : Tale -> String
+author (Tale tale) = tale.author
+
+
+{-|
+-}
+initialPlace : Tale -> Place
+initialPlace (Tale tale) = tale.initialPlace
+
+
+{-|
+-}
+places : Tale -> Dict String Place
+places (Tale tale) = tale.places
+
+
+{-|
+-}
+preamble : Tale -> (Tale -> Html)
+preamble (Tale tale) = tale.preamble
+
+
+{-|
+-}
+pageStyle : Tale -> Attribute
+pageStyle (Tale tale) = tale.pageStyle
+
+
+{-|
+-}
+headerStyle : Tale -> Attribute
+headerStyle (Tale tale) = tale.headerStyle
+
+
+{-|
+-}
+titleStyle : Tale -> Attribute
+titleStyle (Tale tale) = tale.titleStyle
+
+
+{-|
+-}
+byLineStyle : Tale -> Attribute
+byLineStyle (Tale tale) = tale.byLineStyle
+
+
+{-|
+-}
+historyStyle : Tale -> Attribute
+historyStyle (Tale tale) = tale.historyStyle
+
+
+{-|
+-}
+echoStyle : Tale -> Attribute
+echoStyle (Tale tale) = tale.echoStyle
+
+
+{-|
+-}
+errorStyle : Tale -> Attribute
+errorStyle (Tale tale) = tale.errorStyle
+
+
+{-|
+-}
+inputStyle : Tale -> Attribute
+inputStyle (Tale tale) = tale.inputStyle
+
+
+{-|
+-}
+fieldStyle : Tale -> Attribute
+fieldStyle (Tale tale) = tale.fieldStyle
 
 
 {-|

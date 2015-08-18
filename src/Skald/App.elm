@@ -5,7 +5,7 @@ module Skald.App
 import Html exposing (Html)
 import StartApp
 
-import Skald.Tale exposing (Tale (Tale))
+import Skald.Tale as Tale exposing (Tale)
 import Skald.Model as Model exposing (Model)
 import Skald.Place as Place
 import Skald.Update exposing (update, enterPlace)
@@ -27,11 +27,11 @@ run tale =
 {-|
 -}
 startUp : Tale -> Model -> Model
-startUp (Tale tale) model =
+startUp tale model =
   let
-    newModel = copyTaleIntoModel (Tale tale) model
+    newModel = copyTaleIntoModel tale model
     (description, newWorld) =
-      enterPlace (Place.name tale.initialPlace) (Model.world newModel)
+      enterPlace (Place.name (Tale.initialPlace tale)) (Model.world newModel)
   in
     Model.updateWorld newWorld newModel
       |> Model.appendHistory description
@@ -40,5 +40,8 @@ startUp (Tale tale) model =
 {-|
 -}
 copyTaleIntoModel : Tale -> Model -> Model
-copyTaleIntoModel (Tale tale) model =
-  Model.updateWorld (World.updatePlaces tale.places (Model.world model)) model
+copyTaleIntoModel tale model =
+  let
+    newPlaces = World.updatePlaces (Tale.places tale) (Model.world model)
+  in
+    Model.updateWorld newPlaces model
