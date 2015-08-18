@@ -1,5 +1,6 @@
 module Skald.Command
   ( Handler
+  , Command
   , parse
   , enterPlace
   , doNothing
@@ -7,6 +8,8 @@ module Skald.Command
   , error
   , emptyWorld
   , insert
+  , describePlace
+  , describeObject
   ) where
 
 {-|
@@ -85,6 +88,8 @@ mapFirst operation predicate list =
           else mapFirst operation predicate xs
 
 
+{-|
+-}
 insert : String -> Handler -> Map -> Map
 insert string handler map =
   (Regex.caseInsensitive (regex ("^\\s*" ++ string ++ "\\s*$")), handler) :: map
@@ -124,6 +129,8 @@ look args world =
           error "You can't see such a thing." world
 
 
+{-| See `Skald.elm` for documentation.
+-}
 describeObject : Object -> Command
 describeObject object =
   say (Object.description object)
@@ -134,8 +141,8 @@ describeObject object =
 go : Handler
 go args world =
   case args of
-    [ exit ] ->
-      case Dict.get exit (Place.exits (World.currentPlace world)) of
+    [ direction ] ->
+      case Place.exitName direction (World.currentPlace world) of
         Just newPlace ->
           enterPlace newPlace world
 
@@ -204,7 +211,7 @@ enterPlace name world =
     |> describePlace name
 
 
-{-|
+{-| See `Skald.elm` for documentation.
 -}
 describePlace : String -> Command
 describePlace name world =

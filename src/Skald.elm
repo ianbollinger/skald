@@ -1,5 +1,7 @@
 module Skald
   ( run
+
+  , Tale
   , tale
   , by
   , withPreamble
@@ -15,13 +17,24 @@ module Skald
   , thatBeginsIn
   , withPlace
   , withCommand
+
+  , World
+  , currentPlace
+
+  , Place
   , place
   , withExit
   , withObject
+
+  , Object
   , object
+
+  , Command
   , say
   , error
   , doNothing
+  , describeObject
+  , describePlace
   ) where
 
 
@@ -30,24 +43,33 @@ module Skald
 
 # Tales
 
+@docs Tale
 @docs tale
 @docs by, withPreamble, thatBeginsIn, withPlace, withCommand
 @docs withPageStyle, withPreambleStyle, withTitleStyle, withByLineStyle,
       withHistoryStyle, withEchoStyle, withErrorStyle, withInputStyle,
       withFieldStyle
 
+# Worlds
+
+@docs World
+@docs currentPlace
+
 # Places
 
+@docs Place
 @docs place
 @docs withExit, withObject
 
 # Objects
 
+@docs Object
 @docs object
 
-# commands
+# Commands
 
-@docs say, error, doNothing
+@docs Command
+@docs say, error, doNothing, describeObject, describePlace
 -}
 
 import Html exposing (Attribute, Html)
@@ -70,6 +92,8 @@ run =
 
 -- tale ------------------------------------------------------------------------
 
+{-|
+-}
 type alias Tale = Skald.Tale.Tale
 
 
@@ -187,6 +211,12 @@ withCommand =
 -}
 type alias World = Skald.World.World
 
+{-| Retrieves the current place from the given world.
+-}
+currentPlace : World -> Place
+currentPlace =
+  Skald.World.currentPlace
+
 -- place -----------------------------------------------------------------------
 
 {-|
@@ -215,6 +245,13 @@ withObject =
   Skald.Place.withObject
 
 
+{-|
+-}
+exitName : String -> Place -> Maybe String
+exitName =
+  Skald.Place.exitName
+
+
 -- object ----------------------------------------------------------------------
 
 {-|
@@ -232,20 +269,38 @@ object =
 
 {-|
 -}
-doNothing : World -> (List Html, World)
+type alias Command = Skald.Command.Command
+
+{-|
+-}
+doNothing : Command
 doNothing =
   Skald.Command.doNothing
 
 
 {-|
 -}
-say : String -> World -> (List Html, World)
+say : String -> Command
 say =
   Skald.Command.say
 
 
 {-|
 -}
-error : String -> World -> (List Html, World)
+error : String -> Command
 error =
   Skald.Command.error
+
+
+{-|
+-}
+describePlace : String -> Command
+describePlace =
+  Skald.Command.describePlace
+
+
+{-|
+-}
+describeObject : Object -> Command
+describeObject =
+  Skald.Command.describeObject

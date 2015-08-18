@@ -4,6 +4,7 @@ module Skald.Place
   , name
   , description
   , exits
+  , exitName
   , contents
   , updateContents
   , empty
@@ -68,6 +69,13 @@ contents (Place place) =
 exits : Place -> Dict String String
 exits (Place place) =
   place.exits
+
+
+{-| See `Skald.elm` for documentation.
+-}
+exitName : String -> Place -> Maybe String
+exitName exit (Place place) =
+  Dict.get exit place.exits
 
 
 {-|
