@@ -51,6 +51,7 @@ updatePlaces : Dict String Place -> World -> World
 updatePlaces places (World world) =
   World { world | places <- places }
 
+
 -- TODO: "get" prefix seems redundant.
 
 {-| Retrieves the place with the given name from the given world.

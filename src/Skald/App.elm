@@ -33,9 +33,6 @@ startUp (Tale tale) model =
 
 copyTaleIntoModel : Tale -> Model -> Model
 copyTaleIntoModel (Tale tale) model =
-  let
-    oldWorld = model.world
-  in
-    { model
-    | world <- World.updatePlaces tale.places oldWorld
-    }
+  { model
+  | world <- World.updatePlaces tale.places model.world
+  }
