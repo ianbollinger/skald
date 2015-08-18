@@ -13,6 +13,8 @@ import Skald.View exposing (view)
 import Skald.World as World
 
 
+{-| See `Skald.elm` for documentation.
+-}
 run : Tale -> Signal Html
 run tale =
   StartApp.start

@@ -24,6 +24,8 @@ import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
 
 
+{-| See `Skald.elm` for documentation.
+-}
 type Tale = Tale
   { title : String
   , author : String
@@ -42,6 +44,8 @@ type Tale = Tale
   }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 tale : String -> Tale
 tale title =
   Tale
@@ -62,7 +66,8 @@ tale title =
     }
 
 
---
+{-|
+-}
 defaultPreamble : Tale -> Html
 defaultPreamble (Tale tale) =
   Html.header [ tale.headerStyle ]
@@ -71,61 +76,85 @@ defaultPreamble (Tale tale) =
     ]
 
 
+{-| See `Skald.elm` for documentation.
+-}
 by : String -> Tale -> Tale
 by author (Tale tale) =
   Tale { tale | author <- author }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withPreamble : (Tale -> Html) -> Tale -> Tale
 withPreamble text (Tale tale) =
   Tale { tale | preamble <- text }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withPageStyle : Attribute -> Tale -> Tale
 withPageStyle style (Tale tale) =
   Tale { tale | pageStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withPreambleStyle : Attribute -> Tale -> Tale
 withPreambleStyle style (Tale tale) =
   Tale { tale | headerStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withTitleStyle : Attribute -> Tale -> Tale
 withTitleStyle style (Tale tale) =
   Tale { tale | titleStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withByLineStyle : Attribute -> Tale -> Tale
 withByLineStyle style (Tale tale) =
   Tale { tale | byLineStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withHistoryStyle : Attribute -> Tale -> Tale
 withHistoryStyle style (Tale tale) =
   Tale { tale | historyStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withEchoStyle : Attribute -> Tale -> Tale
 withEchoStyle style (Tale tale) =
   Tale { tale | echoStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withErrorStyle : Attribute -> Tale -> Tale
 withErrorStyle style (Tale tale) =
   Tale { tale | errorStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withInputStyle : Attribute -> Tale -> Tale
 withInputStyle style (Tale tale) =
   Tale { tale | inputStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withFieldStyle : Attribute -> Tale -> Tale
 withFieldStyle style (Tale tale) =
   Tale { tale | fieldStyle <- style }
 
 
+{-| See `Skald.elm` for documentation.
+-}
 thatBeginsIn : Place -> Tale -> Tale
 thatBeginsIn place (Tale tale) =
   Tale
@@ -135,6 +164,8 @@ thatBeginsIn place (Tale tale) =
     |> withPlace place
 
 
+{-| See `Skald.elm` for documentation.
+-}
 withPlace : Place -> Tale -> Tale
 withPlace place (Tale tale) =
   Tale
