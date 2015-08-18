@@ -1,6 +1,9 @@
 module Skald.Command
-  ( parse
+  ( Handler
+  , parse
   , enterPlace
+  , say
+  , error
   , emptyWorld
   ) where
 
@@ -59,7 +62,6 @@ defaultMap =
     |> Dict.insert "go" go
     |> Dict.insert "take" take
     |> Dict.insert "get" take
-    |> Dict.insert "think" think
 
 
 -- TODO: rename
@@ -68,15 +70,6 @@ defaultMap =
 emptyWorld : World
 emptyWorld =
   World.setCommands defaultMap World.empty
-
-
-{-|
--}
-think : Handler
-think args =
-  case args of
-    _ ->
-      error "When has that solved anything?"
 
 
 {-|
@@ -144,14 +137,14 @@ take args world =
     (html1 ++ html2, world2)
 
 
-{-|
+{-| See `Skald.elm` for documentation.
 -}
 say : String -> World -> (List Html, World)
 say string world =
   ([format string], world)
 
 
-{-|
+{-| See `Skald.elm` for documentation.
 -}
 error : String -> World -> (List Html, World)
 error string world =

@@ -27,6 +27,7 @@ module Skald.Tale
   , withFieldStyle
   , thatBeginsIn
   , withPlace
+  , withCommand
   ) where
 
 {-|

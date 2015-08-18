@@ -14,10 +14,13 @@ module Skald
   , withFieldStyle
   , thatBeginsIn
   , withPlace
+  , withCommand
   , place
   , withExit
   , withObject
   , object
+  , say
+  , error
   ) where
 
 
@@ -27,7 +30,7 @@ module Skald
 # Tales
 
 @docs tale
-@docs by, withPreamble, thatBeginsIn, withPlace
+@docs by, withPreamble, thatBeginsIn, withPlace, withCommand
 @docs withPageStyle, withPreambleStyle, withTitleStyle, withByLineStyle,
       withHistoryStyle, withEchoStyle, withErrorStyle, withInputStyle,
       withFieldStyle
@@ -40,11 +43,16 @@ module Skald
 # Objects
 
 @docs object
+
+# commands
+
+@docs say, error
 -}
 
 import Html exposing (Attribute, Html)
 
 import Skald.App
+import Skald.Command
 import Skald.Object
 import Skald.Place
 import Skald.Tale
@@ -165,6 +173,13 @@ withPlace : Place -> Tale -> Tale
 withPlace =
   Skald.Tale.withPlace
 
+
+{-|
+-}
+withCommand : String -> Skald.Command.Handler -> Tale -> Tale
+withCommand =
+  Skald.Tale.withCommand
+
 -- world -----------------------------------------------------------------------
 
 {-|
@@ -211,3 +226,19 @@ type alias Object = Skald.Object.Object
 object : String -> String -> Object
 object =
   Skald.Object.object
+
+-- command ---------------------------------------------------------------------
+
+
+{-|
+-}
+say : String -> World -> (List Html, World)
+say =
+  Skald.Command.say
+
+
+{-|
+-}
+error : String -> World -> (List Html, World)
+error =
+  Skald.Command.error
