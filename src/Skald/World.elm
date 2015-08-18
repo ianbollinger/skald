@@ -1,5 +1,7 @@
 module Skald.World
   ( World
+  , CommandHandler
+  , CommandMap
   , empty
   , currentPlaceName
   , setCurrentPlaceName
@@ -12,8 +14,8 @@ module Skald.World
   , commands
   , setCommands
   , updateCommands
-  , CommandHandler
-  , CommandMap
+  , inventory
+  , updateInventory
   ) where
 
 {-|
@@ -23,6 +25,7 @@ import Dict exposing (Dict)
 import Html exposing (Html)
 import Regex exposing (Regex)
 
+import Skald.Object exposing (Object)
 import Skald.Place as Place exposing (Place)
 
 
@@ -44,8 +47,13 @@ type World =
     { currentPlace : String
     , places : Dict String Place
     , commands : CommandMap
+    , inventory : Inventory
     }
 
+
+{-|
+-}
+type alias Inventory = Dict String Object
 
 
 {-| An empty world.
@@ -56,6 +64,7 @@ empty =
     { currentPlace = ""
     , places = Dict.empty
     , commands = []
+    , inventory = Dict.empty
     }
 
 
@@ -155,3 +164,17 @@ setCommands newCommands (World world) =
 updateCommands : (CommandMap -> CommandMap) -> World -> World
 updateCommands f (World world) =
   World { world | commands <- f world.commands }
+
+
+{-|
+-}
+inventory : World -> Inventory
+inventory (World world) =
+  world.inventory
+
+
+{-|
+-}
+updateInventory : (Inventory -> Inventory) -> World -> World
+updateInventory f (World world) =
+  World { world | inventory <- f world.inventory }

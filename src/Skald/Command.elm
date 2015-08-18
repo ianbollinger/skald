@@ -116,17 +116,25 @@ emptyWorld =
 -}
 look : Handler
 look args world =
-  case args of
-    [] ->
-      describePlace (World.currentPlaceName world) world
+  let
+    currentPlace = World.currentPlace world
+  in
+    case args of
+      [] ->
+        describePlace currentPlace world
 
-    [ name ] ->
-      case Dict.get name (Place.contents (World.currentPlace world)) of
-        Just found ->
-          describeObject found world
+      [ name ] ->
+        case Dict.get name (Place.contents currentPlace) of
+          Just found ->
+            describeObject found world
 
-        Nothing ->
-          error "You can't see such a thing." world
+          Nothing ->
+            case Dict.get name (World.inventory world) of
+              Just found ->
+                describeObject found world
+
+              Nothing ->
+                error "You can't see such a thing." world
 
 
 {-| See `Skald.elm` for documentation.
@@ -162,7 +170,8 @@ take args world =
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
           say ("You take the **" ++ name ++ "**.")
-            <| World.removeObject name world
+            <| World.removeObject name
+            <| World.updateInventory (Dict.insert name found) world
 
         Nothing ->
           error "You can't see such a thing." world
@@ -208,15 +217,14 @@ error string world =
 enterPlace : String -> Command
 enterPlace name world =
   World.setCurrentPlaceName name world
-    |> describePlace name
+    |> describePlace (World.getPlace name world)
 
 
 {-| See `Skald.elm` for documentation.
 -}
-describePlace : String -> Command
-describePlace name world =
+describePlace : Place -> Command
+describePlace place world =
   let
-    place = World.getPlace name world
     html =
       [ heading (Place.name place)
       , format (Place.description place)

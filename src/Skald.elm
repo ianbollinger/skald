@@ -294,7 +294,7 @@ error =
 
 {-|
 -}
-describePlace : String -> Command
+describePlace : Place -> Command
 describePlace =
   Skald.Command.describePlace
 
