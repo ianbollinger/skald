@@ -69,9 +69,10 @@ exits (Place place) =
 
 {-|
 -}
-updateContents : Dict String Object -> Place -> Place
-updateContents newContents (Place place) =
-  Place { place | contents <- newContents }
+updateContents : (Dict String Object -> Dict String Object) -> Place -> Place
+updateContents f (Place place) =
+  Place { place | contents <- f place.contents }
+
 
 {-| An empty place.
 -}

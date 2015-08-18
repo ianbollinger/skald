@@ -14,7 +14,7 @@ import Skald.Model as Model exposing (Model)
 import Skald.Object as Object
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
-import Skald.Tale exposing (Tale)
+import Skald.Tale as Tale exposing (Tale)
 import Skald.World as World exposing (World)
 
 -- update ----------------------------------------------------------------------
@@ -52,8 +52,8 @@ submitField tale model =
 {-| Copies the contents of the input field to the tale's history.
 -}
 echo : Tale -> Model -> Html
-echo (Skald.Tale.Tale tale) model =
-  Html.p [ tale.echoStyle ] [ Html.text (Model.inputField model) ]
+echo tale model =
+  Html.p [ Tale.echoStyle tale ] [ Html.text (Model.inputField model) ]
 
 
 -- command ---------------------------------------------------------------------

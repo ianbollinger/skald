@@ -86,8 +86,7 @@ removeObject name world =
   let
     currentPlace' = currentPlace world
     -- TODO: combine getter/setter?
-    newContents = Dict.remove name (Place.contents currentPlace')
-    newPlace = Place.updateContents newContents currentPlace'
+    newPlace = Place.updateContents (Dict.remove name) currentPlace'
   in
     updateCurrentPlace newPlace world
 
