@@ -1,5 +1,6 @@
 module Skald.World
   ( World
+  , toString
   , CommandHandler
   , CommandMap
   , empty
@@ -50,6 +51,22 @@ type World =
     , inventory : Inventory
     }
 
+
+toString : World -> String
+toString (World world) =
+  let
+    placesToString =
+      -- TODO: commas.
+      "Dict.fromList \n        [ "
+      ++ Dict.foldr (\x y z -> "(\"" ++ x ++ "\", " ++ Place.toString y ++ ")\n        " ++ z) "" world.places
+      ++ "]"
+  in
+    "    World
+      { currentPlace = \"" ++ world.currentPlace ++ "\"
+      , places = " ++ placesToString ++ "
+      , commands = " ++ "<???>" ++ "
+      , inventory = " ++ "<???>" ++ "
+      }"
 
 {-|
 -}
@@ -111,11 +128,11 @@ currentPlace (World world) =
 -}
 setCurrentPlace : Place -> World -> World
 setCurrentPlace place (World world) =
-  let
-    newPlaces = Dict.insert world.currentPlace place (places (World world))
-  in
-    setPlaces newPlaces (World world)
-
+  World
+    { world
+    | places <- Dict.insert (Place.name place) place (places (World world))
+    , currentPlace <- Place.name place
+    }
 
 {-|
 -}

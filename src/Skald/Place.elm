@@ -1,5 +1,6 @@
 module Skald.Place
   ( Place
+  , toString
   , place
   , name
   , description
@@ -29,6 +30,28 @@ type Place =
     , exits : Dict String String
     , contents : Dict String Object
     }
+
+
+{-|
+-}
+toString : Place -> String
+toString (Place place) =
+  let
+    exitsToString =
+      "Dict.fromList \n              [ "
+      ++ Dict.foldr (\x y z -> "(\"" ++ x ++ "\", \"" ++ y ++ "\")\n              " ++ z) "" place.exits
+      ++ "]"
+    contentsToString =
+      "Dict.fromList \n              [ "
+      ++ Dict.foldr (\x y z -> "(\"" ++ x ++ "\", \"" ++ (Object.name y) ++ "\")\n              " ++ z) "" place.contents
+      ++ "]"
+  in
+    "Place
+            { name = \"" ++ place.name ++ "\"
+            , description = \"" ++ place.description ++ "\"
+            , exits = " ++ exitsToString ++ "
+            , contents = " ++ contentsToString ++ "
+            }"
 
 
 {-| See `Skald.elm` for documentation.

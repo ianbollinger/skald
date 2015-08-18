@@ -103,8 +103,14 @@ defaultMap =
   insert "(?:examine|look(?:\\s+at)?|x)(?:\\s+(\\S*))?" look []
     |> insert "go(?:\\s+to)?(?:\\s+(\\S*))?" go
     |> insert "(?:take|get)(?:\\s+(\\S*))?" take
-    |> insert "(?:drop)(?:\\s+(\\S*))?" drop
+    |> insert "drop(?:\\s+(\\S*))?" drop
+    |> insert "debug" debug
 
+{-|
+-}
+debug : Handler
+debug args world =
+  say (World.toString world) world
 
 -- TODO: rename
 {-|
