@@ -34,12 +34,13 @@ module Skald.Tale
 -}
 
 import Dict exposing (Dict)
-import Html exposing (Html, Attribute)
+import Html exposing (Html)
+import Html.Attributes exposing (style)
 import Regex exposing (regex)
 
 import Skald.Command as Command exposing (emptyWorld)
 import Skald.Place as Place exposing (Place)
-import Skald.Style as Style
+import Skald.Style as Style exposing (Styles)
 import Skald.World as World exposing (World, CommandHandler, CommandMap)
 
 
@@ -51,15 +52,15 @@ type Tale =
     , author : String
     , initialWorld : World
     , preamble : Tale -> Html
-    , pageStyle : Attribute
-    , headerStyle : Attribute
-    , titleStyle : Attribute
-    , byLineStyle : Attribute
-    , historyStyle : Attribute
-    , echoStyle : Attribute
-    , errorStyle : Attribute
-    , inputStyle : Attribute
-    , fieldStyle : Attribute
+    , pageStyle : Styles
+    , headerStyle : Styles
+    , titleStyle : Styles
+    , byLineStyle : Styles
+    , historyStyle : Styles
+    , echoStyle : Styles
+    , errorStyle : Styles
+    , inputStyle : Styles
+    , fieldStyle : Styles
     }
 
 
@@ -87,88 +88,101 @@ tale title =
 {-|
 -}
 title : Tale -> String
-title (Tale tale) = tale.title
+title (Tale tale) =
+   tale.title
 
 
 {-|
 -}
 author : Tale -> String
-author (Tale tale) = tale.author
+author (Tale tale) =
+   tale.author
 
 
 {-|
 -}
 initialWorld : Tale -> World
-initialWorld (Tale tale) = tale.initialWorld
+initialWorld (Tale tale) =
+   tale.initialWorld
 
 
 {-|
 -}
 preamble : Tale -> (Tale -> Html)
-preamble (Tale tale) = tale.preamble
+preamble (Tale tale) =
+   tale.preamble
 
 
 {-|
 -}
-pageStyle : Tale -> Attribute
-pageStyle (Tale tale) = tale.pageStyle
+pageStyle : Tale -> Styles
+pageStyle (Tale tale) =
+   tale.pageStyle
 
 
 {-|
 -}
-headerStyle : Tale -> Attribute
-headerStyle (Tale tale) = tale.headerStyle
+headerStyle : Tale -> Styles
+headerStyle (Tale tale) =
+   tale.headerStyle
 
 
 {-|
 -}
-titleStyle : Tale -> Attribute
-titleStyle (Tale tale) = tale.titleStyle
+titleStyle : Tale -> Styles
+titleStyle (Tale tale) =
+   tale.titleStyle
 
 
 {-|
 -}
-byLineStyle : Tale -> Attribute
-byLineStyle (Tale tale) = tale.byLineStyle
+byLineStyle : Tale -> Styles
+byLineStyle (Tale tale) =
+   tale.byLineStyle
 
 
 {-|
 -}
-historyStyle : Tale -> Attribute
-historyStyle (Tale tale) = tale.historyStyle
+historyStyle : Tale -> Styles
+historyStyle (Tale tale) =
+   tale.historyStyle
 
 
 {-|
 -}
-echoStyle : Tale -> Attribute
-echoStyle (Tale tale) = tale.echoStyle
+echoStyle : Tale -> Styles
+echoStyle (Tale tale) =
+   tale.echoStyle
 
 
 {-|
 -}
-errorStyle : Tale -> Attribute
-errorStyle (Tale tale) = tale.errorStyle
+errorStyle : Tale -> Styles
+errorStyle (Tale tale) =
+   tale.errorStyle
 
 
 {-|
 -}
-inputStyle : Tale -> Attribute
-inputStyle (Tale tale) = tale.inputStyle
+inputStyle : Tale -> Styles
+inputStyle (Tale tale) =
+   tale.inputStyle
 
 
 {-|
 -}
-fieldStyle : Tale -> Attribute
-fieldStyle (Tale tale) = tale.fieldStyle
+fieldStyle : Tale -> Styles
+fieldStyle (Tale tale) =
+   tale.fieldStyle
 
 
 {-|
 -}
 defaultPreamble : Tale -> Html
 defaultPreamble (Tale tale) =
-  Html.header [ tale.headerStyle ]
-    [ Html.h1 [ tale.titleStyle ] [ Html.text tale.title ]
-    , Html.p [ tale.byLineStyle ] [ Html.text ("by " ++ tale.author) ]
+  Html.header [ style tale.headerStyle ]
+    [ Html.h1 [ style tale.titleStyle ] [ Html.text tale.title ]
+    , Html.p [ style tale.byLineStyle ] [ Html.text ("by " ++ tale.author) ]
     ]
 
 
@@ -188,63 +202,63 @@ withPreamble text (Tale tale) =
 
 {-| See `Skald.elm` for documentation.
 -}
-withPageStyle : Attribute -> Tale -> Tale
+withPageStyle : Styles -> Tale -> Tale
 withPageStyle style (Tale tale) =
   Tale { tale | pageStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withPreambleStyle : Attribute -> Tale -> Tale
+withPreambleStyle : Styles -> Tale -> Tale
 withPreambleStyle style (Tale tale) =
   Tale { tale | headerStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withTitleStyle : Attribute -> Tale -> Tale
+withTitleStyle : Styles -> Tale -> Tale
 withTitleStyle style (Tale tale) =
   Tale { tale | titleStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withByLineStyle : Attribute -> Tale -> Tale
+withByLineStyle : Styles -> Tale -> Tale
 withByLineStyle style (Tale tale) =
   Tale { tale | byLineStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withHistoryStyle : Attribute -> Tale -> Tale
+withHistoryStyle : Styles -> Tale -> Tale
 withHistoryStyle style (Tale tale) =
   Tale { tale | historyStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withEchoStyle : Attribute -> Tale -> Tale
+withEchoStyle : Styles -> Tale -> Tale
 withEchoStyle style (Tale tale) =
   Tale { tale | echoStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withErrorStyle : Attribute -> Tale -> Tale
+withErrorStyle : Styles -> Tale -> Tale
 withErrorStyle style (Tale tale) =
   Tale { tale | errorStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withInputStyle : Attribute -> Tale -> Tale
+withInputStyle : Styles -> Tale -> Tale
 withInputStyle style (Tale tale) =
   Tale { tale | inputStyle <- style }
 
 
 {-| See `Skald.elm` for documentation.
 -}
-withFieldStyle : Attribute -> Tale -> Tale
+withFieldStyle : Styles -> Tale -> Tale
 withFieldStyle style (Tale tale) =
   Tale { tale | fieldStyle <- style }
 

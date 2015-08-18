@@ -23,7 +23,7 @@ view : Tale -> Address Action -> Model -> Html
 view tale address model =
   -- TODO: this needs to be moved to where it will work 100% of the time.
   Native.Skald.scrollToBottom <|
-    Html.article [ Tale.pageStyle tale ]
+    Html.article [ style (Tale.pageStyle tale) ]
       [ Tale.preamble tale tale
       , history tale (Model.history model)
       , inputField tale address (Model.inputField model)
@@ -34,18 +34,18 @@ history : Tale -> Array Html -> Html
 history tale entries =
   -- TODO: having to convert back to a list seems to negate the benefit of
   -- using an array.
-  Html.div [ Tale.historyStyle tale ] (Array.toList entries)
+  Html.div [ style (Tale.historyStyle tale) ] (Array.toList entries)
 
 
 inputField : Tale -> Address Action -> String -> Html
 inputField tale address string =
-  Html.div [ Tale.inputStyle tale ]
+  Html.div [ style (Tale.inputStyle tale) ]
     [ input
       [ autofocus True
       , value string
       , on "input" targetValue (Signal.message address << UpdateField)
       , onEnter address SubmitField
-      , Tale.fieldStyle tale
+      , style (Tale.fieldStyle tale)
       ]
       []
     ]

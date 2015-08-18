@@ -72,12 +72,13 @@ module Skald
 @docs say, error, doNothing, describeObject, describePlace
 -}
 
-import Html exposing (Attribute, Html)
+import Html exposing (Html)
 
 import Skald.App
 import Skald.Command
 import Skald.Object
 import Skald.Place
+import Skald.Style exposing (Styles)
 import Skald.Tale
 import Skald.World
 
@@ -124,63 +125,63 @@ withPreamble =
 
 {-| Sets the style attribute for the page.
 -}
-withPageStyle : Attribute -> Tale -> Tale
+withPageStyle : Styles -> Tale -> Tale
 withPageStyle =
   Skald.Tale.withPageStyle
 
 
 {-| Sets the style attribute for the preamble.
 -}
-withPreambleStyle : Attribute -> Tale -> Tale
+withPreambleStyle : Styles -> Tale -> Tale
 withPreambleStyle =
   Skald.Tale.withPreambleStyle
 
 
 {-| Sets the style attribute for the default preamble's title.
 -}
-withTitleStyle : Attribute -> Tale -> Tale
+withTitleStyle : Styles -> Tale -> Tale
 withTitleStyle =
   Skald.Tale.withTitleStyle
 
 
 {-| Sets the style attribute for the default preamble's by-line.
 -}
-withByLineStyle : Attribute -> Tale -> Tale
+withByLineStyle : Styles -> Tale -> Tale
 withByLineStyle =
   Skald.Tale.withByLineStyle
 
 
 {-| Sets the style attribute for the tale's history.
 -}
-withHistoryStyle : Attribute -> Tale -> Tale
+withHistoryStyle : Styles -> Tale -> Tale
 withHistoryStyle  =
   Skald.Tale.withHistoryStyle
 
 
 {-| Sets the style attribute for echoed input.
 -}
-withEchoStyle : Attribute -> Tale -> Tale
+withEchoStyle : Styles -> Tale -> Tale
 withEchoStyle =
   Skald.Tale.withEchoStyle
 
 
 {-| Sets the style attribute for error messages.
 -}
-withErrorStyle : Attribute -> Tale -> Tale
+withErrorStyle : Styles -> Tale -> Tale
 withErrorStyle =
   Skald.Tale.withErrorStyle
 
 
 {-| Sets the style attribute for the input area.
 -}
-withInputStyle : Attribute -> Tale -> Tale
+withInputStyle : Styles -> Tale -> Tale
 withInputStyle =
   Skald.Tale.withInputStyle
 
 
 {-| Sets the style attribute for the input field.
 -}
-withFieldStyle : Attribute -> Tale -> Tale
+withFieldStyle : Styles -> Tale -> Tale
 withFieldStyle =
   Skald.Tale.withFieldStyle
 

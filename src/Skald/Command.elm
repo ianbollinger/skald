@@ -17,6 +17,7 @@ module Skald.Command
 
 import Dict exposing (Dict)
 import Html exposing (Html)
+import Html.Attributes exposing (style)
 import List
 import Markdown
 import Regex exposing (regex)
@@ -288,7 +289,7 @@ format string =
 formatError : String -> Html
 formatError string =
   -- TODO: allow style customization.
-  Html.div [ Style.errorDefault ] [ Markdown.toHtml string ]
+  Html.div [ style Style.errorDefault ] [ Markdown.toHtml string ]
 
 
 {-|

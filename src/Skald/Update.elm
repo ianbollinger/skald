@@ -7,6 +7,7 @@ module Skald.Update
 
 import Dict exposing (Dict)
 import Html exposing (Html)
+import Html.Attributes exposing (style)
 import String
 
 import Skald.Action exposing (Action (..))
@@ -54,4 +55,4 @@ submitField tale model =
 -}
 echo : Tale -> Model -> Html
 echo tale model =
-  Html.p [ Tale.echoStyle tale ] [ Html.text (Model.inputField model) ]
+  Html.p [ style (Tale.echoStyle tale) ] [ Html.text (Model.inputField model) ]
