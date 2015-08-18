@@ -28,7 +28,7 @@ import Skald.Place as Place exposing (Place)
 
 {-|
 -}
-type alias CommandHandler = Regex.Match -> World -> (List Html, World)
+type alias CommandHandler = List String -> World -> (List Html, World)
 
 
 {-|

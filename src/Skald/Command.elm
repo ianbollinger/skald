@@ -49,7 +49,7 @@ parse field world =
       Just (match, command) ->
         case List.head match of
           Just match' ->
-            command match' world
+            command (List.filterMap (\x -> x) match'.submatches) world
 
           Nothing ->
             error "I'm afraid I didn't understand that." world
@@ -98,11 +98,11 @@ emptyWorld =
 -}
 look : Handler
 look args world =
-  case args.submatches of
-    [ Nothing ] ->
+  case args of
+    [] ->
       describePlace (World.currentPlaceName world) world
 
-    [ Just name ] ->
+    [ name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
           say (Object.description found) world
@@ -110,16 +110,13 @@ look args world =
         Nothing ->
           error "You can't see such a thing." world
 
-    _ ->
-      error "You can't see such a thing." world
-
 
 {-|
 -}
 go : Handler
 go args world =
-  case args.submatches of
-    [ Just exit ] ->
+  case args of
+    [ exit ] ->
       case Dict.get exit (Place.exits (World.currentPlace world)) of
         Just newPlace ->
           enterPlace newPlace world
@@ -135,8 +132,8 @@ go args world =
 -}
 take : Handler
 take args world =
-  case args.submatches of
-    [ Just name ] ->
+  case args of
+    [ name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
           say ("You take the **" ++ name ++ "**.")

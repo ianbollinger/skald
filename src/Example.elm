@@ -9,10 +9,10 @@ main =
     |> run
 
 think args =
-  case args.submatches of
-    [ Just x ] ->
+  case args of
+    [ x ] ->
       error "Thinking about that yields no new insight."
-    [ Nothing ] ->
+    [] ->
       error "When has that solved anything?"
 
 theRoom =
