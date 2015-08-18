@@ -118,49 +118,49 @@ withByLineStyle =
   Skald.Tale.withByLineStyle
 
 
-{-|
+{-| Sets the style attribute for the tale's history.
 -}
 withHistoryStyle : Attribute -> Tale -> Tale
 withHistoryStyle  =
   Skald.Tale.withHistoryStyle
 
 
-{-|
+{-| Sets the style attribute for echoed input.
 -}
 withEchoStyle : Attribute -> Tale -> Tale
 withEchoStyle =
   Skald.Tale.withEchoStyle
 
 
-{-|
+{-| Sets the style attribute for error messages.
 -}
 withErrorStyle : Attribute -> Tale -> Tale
 withErrorStyle =
   Skald.Tale.withErrorStyle
 
 
-{-|
+{-| Sets the style attribute for the input area.
 -}
 withInputStyle : Attribute -> Tale -> Tale
 withInputStyle =
   Skald.Tale.withInputStyle
 
 
-{-|
+{-| Sets the style attribute for the input field.
 -}
 withFieldStyle : Attribute -> Tale -> Tale
 withFieldStyle =
   Skald.Tale.withFieldStyle
 
 
-{-|
+{-| Sets the place where the tale begins.
 -}
 thatBeginsIn : Place -> Tale -> Tale
 thatBeginsIn =
   Skald.Tale.thatBeginsIn
 
 
-{-|
+{-| Adds the given place to the tale.
 -}
 withPlace : Place -> Tale -> Tale
 withPlace =
@@ -179,7 +179,7 @@ type alias World = Skald.World.World
 type alias Place = Skald.Place.Place
 
 
-{-|
+{-| Creates a new place with the given name and description
 -}
 place : String -> String -> Place
 place =
@@ -193,7 +193,7 @@ withExit =
   Skald.Place.withExit
 
 
-{-|
+{-| Adds the given object to the given place.
 -}
 withObject : Object -> Place -> Place
 withObject =
