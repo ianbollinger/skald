@@ -2,6 +2,9 @@ module Skald.App
   ( run
   ) where
 
+{-|
+-}
+
 import Html exposing (Html)
 import StartApp
 

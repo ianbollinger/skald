@@ -30,6 +30,9 @@ module Skald.Tale
   , withPlace
   ) where
 
+{-|
+-}
+
 import Dict exposing (Dict)
 import Html exposing (Html, Attribute)
 

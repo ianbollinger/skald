@@ -9,6 +9,9 @@ module Skald.World
   , empty
   ) where
 
+{-|
+-}
+
 import Dict exposing (Dict)
 
 import Skald.Place as Place exposing (Place)

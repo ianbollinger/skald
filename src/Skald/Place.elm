@@ -11,6 +11,9 @@ module Skald.Place
   , withObject
   ) where
 
+{-|
+-}
+
 import Dict exposing (Dict)
 
 import Skald.Object as Object exposing (Object)

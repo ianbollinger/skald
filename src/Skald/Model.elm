@@ -10,6 +10,9 @@ module Skald.Model
   , setWorld
   ) where
 
+{-|
+-}
+
 import Array as Array exposing (Array)
 import Dict as Dict
 import Html exposing (Html)

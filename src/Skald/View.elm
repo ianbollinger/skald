@@ -2,6 +2,8 @@ module Skald.View
   ( view
   ) where
 
+{-|
+-}
 
 import Array exposing (Array)
 import Html exposing (Html, Attribute, text, toElement, input)

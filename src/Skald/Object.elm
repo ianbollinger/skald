@@ -5,6 +5,9 @@ module Skald.Object
   , description
   ) where
 
+{-|
+-}
+
 {-| See `Skald.elm` for documentation.
 -}
 type Object =

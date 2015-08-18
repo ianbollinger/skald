@@ -4,6 +4,9 @@ module Skald.Update
   , enterPlace
   ) where
 
+{-|
+-}
+
 import Dict exposing (Dict)
 import Html exposing (Html)
 import Markdown
