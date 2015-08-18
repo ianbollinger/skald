@@ -5,7 +5,7 @@ main =
     |> by "Ian D. Bollinger"
     |> thatBeginsIn theRoom
     |> withPlace otherRoom
-    |> withCommand "^\\s*think(?:\\s+about)?(?:\\s+(\\S+))?\\s*$" think
+    |> withCommand "think(?:\\s+about)?(?:\\s+(\\S+))?" think
     |> run
 
 think args =

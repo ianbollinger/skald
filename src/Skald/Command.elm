@@ -6,6 +6,7 @@ module Skald.Command
   , say
   , error
   , emptyWorld
+  , insert
   ) where
 
 {-|
@@ -76,14 +77,18 @@ mapFirst operation predicate list =
           else mapFirst operation predicate xs
 
 
+insert : String -> Handler -> Map -> Map
+insert string handler map =
+  (Regex.caseInsensitive (regex ("^\\s*" ++ string ++ "\\s*$")), handler) :: map
+
+
 {-|
 -}
 defaultMap : Map
 defaultMap =
-  [ (regex "^\\s*(?:examine|look(?:\\s+at)?|x)(?:\\s+(\\S*))?\\s*$" |> Regex.caseInsensitive, look)
-  , (regex "^\\s*go(?:\\s+to)?(?:\\s+(\\S*))?\\s*$" |> Regex.caseInsensitive, go)
-  , (regex "^\\s*(?:take|get)(?:\\s+(\\S*))?\\s*$" |> Regex.caseInsensitive, take)
-  ]
+  insert "(?:examine|look(?:\\s+at)?|x)(?:\\s+(\\S*))?" look []
+    |> insert "go(?:\\s+to)?(?:\\s+(\\S*))?" go
+    |> insert "(?:take|get)(?:\\s+(\\S*))?" take
 
 
 -- TODO: rename

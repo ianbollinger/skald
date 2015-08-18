@@ -37,7 +37,7 @@ import Dict exposing (Dict)
 import Html exposing (Html, Attribute)
 import Regex exposing (regex)
 
-import Skald.Command exposing (emptyWorld)
+import Skald.Command as Command exposing (emptyWorld)
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
 import Skald.World as World exposing (World, CommandHandler, CommandMap)
@@ -276,7 +276,7 @@ withPlace place (Tale tale) =
 withCommand : String -> CommandHandler -> Tale -> Tale
 withCommand pattern handler (Tale tale) =
   let
-    update x = (regex pattern |> Regex.caseInsensitive, handler) :: x
+    update = Command.insert pattern handler
     newWorld = World.updateCommands update tale.initialWorld
   in
     Tale { tale | initialWorld <- newWorld }
