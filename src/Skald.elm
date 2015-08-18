@@ -20,6 +20,7 @@ module Skald
 
   , World
   , currentPlace
+  , item
 
   , Place
   , place
@@ -30,11 +31,14 @@ module Skald
   , object
 
   , Command
+  , andThen
   , say
   , error
   , doNothing
   , describeObject
   , describePlace
+  , removeFromInventory
+  , createObject
   ) where
 
 
@@ -54,6 +58,7 @@ module Skald
 
 @docs World
 @docs currentPlace
+@docs item
 
 # Places
 
@@ -69,7 +74,9 @@ module Skald
 # Commands
 
 @docs Command
-@docs say, error, doNothing, describeObject, describePlace
+@docs andThen, say, error, doNothing, describeObject, describePlace,
+      removeFromInventory, createObject
+
 -}
 
 import Html exposing (Html)
@@ -212,11 +219,19 @@ withCommand =
 -}
 type alias World = Skald.World.World
 
+
 {-| Retrieves the current place from the given world.
 -}
 currentPlace : World -> Place
 currentPlace =
   Skald.World.currentPlace
+
+
+{-|
+-}
+item : String -> World -> Maybe Object
+item =
+  Skald.World.item
 
 -- place -----------------------------------------------------------------------
 
@@ -272,6 +287,14 @@ object =
 -}
 type alias Command = Skald.Command.Command
 
+
+{-|
+-}
+andThen : (List Html, World) -> Command -> (List Html, World)
+andThen =
+  Skald.Command.andThen
+
+
 {-|
 -}
 doNothing : Command
@@ -305,3 +328,17 @@ describePlace =
 describeObject : Object -> Command
 describeObject =
   Skald.Command.describeObject
+
+
+{-|
+-}
+removeFromInventory : Object -> Command
+removeFromInventory =
+  Skald.Command.removeFromInventory
+
+
+{-|
+-}
+createObject : Object -> Command
+createObject =
+  Skald.Command.createObject

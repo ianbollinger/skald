@@ -1,6 +1,7 @@
 module Skald.Command
   ( Handler
   , Command
+  , andThen
   , parse
   , enterPlace
   , doNothing
@@ -10,6 +11,8 @@ module Skald.Command
   , insert
   , describePlace
   , describeObject
+  , removeFromInventory
+  , createObject
   ) where
 
 {-|
@@ -137,7 +140,7 @@ look args world =
             describeObject found world
 
           Nothing ->
-            case Dict.get name (World.inventory world) of
+            case World.item name world of
               Just found ->
                 describeObject found world
 
@@ -206,7 +209,8 @@ drop args world =
     _ ->
       error "Drop what?" world
 
-{-|
+
+{-| See `Skald.elm` for documentation.
 -}
 andThen : Result -> Command -> Result
 andThen (html1, world) f =
