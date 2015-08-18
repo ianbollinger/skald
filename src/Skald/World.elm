@@ -25,4 +25,5 @@ getPlace name world =
 
 
 getCurrentPlace : World -> Place
-getCurrentPlace world = getPlace world.currentPlace world
+getCurrentPlace world =
+  getPlace world.currentPlace world

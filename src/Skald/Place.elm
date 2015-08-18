@@ -21,11 +21,11 @@ type alias Place =
 
 place : String -> String -> Place
 place name description =
-    { name = name
-    , description = description
-    , exits = Dict.empty
-    , contents = Dict.empty
-    }
+  { name = name
+  , description = description
+  , exits = Dict.empty
+  , contents = Dict.empty
+  }
 
 
 empty : Place

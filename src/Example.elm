@@ -12,7 +12,8 @@ theRoom =
     |> withExit "north" "The Other Room"
     |> withObject potato
 
-potato = object "potato" "An irregularly shaped potato."
+potato =
+  object "potato" "An irregularly shaped potato."
 
 otherRoom =
   place "The Other Room" "Not very creative, is it?"
