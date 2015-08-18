@@ -5,6 +5,8 @@ module Skald.Action
 {-|
 -}
 
+{-|
+-}
 type Action
   = NoOp
   | SubmitField

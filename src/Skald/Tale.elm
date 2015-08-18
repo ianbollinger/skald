@@ -3,8 +3,7 @@ module Skald.Tale
   , tale
   , title
   , author
-  , initialPlace
-  , places
+  , initialWorld
   , preamble
   , pageStyle
   , headerStyle
@@ -36,9 +35,10 @@ module Skald.Tale
 import Dict exposing (Dict)
 import Html exposing (Html, Attribute)
 
+import Skald.Command exposing (emptyWorld)
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
-import Skald.World exposing (CommandHandler, CommandMap)
+import Skald.World as World exposing (World, CommandHandler, CommandMap)
 
 
 {-| See `Skald.elm` for documentation.
@@ -47,12 +47,7 @@ type Tale =
   Tale
     { title : String
     , author : String
-
-    -- TODO: instead of doing this, just duplicate World structure.
-    , initialPlace : Place
-    , places : Dict String Place
-    , commands : CommandMap
-
+    , initialWorld : World
     , preamble : Tale -> Html
     , pageStyle : Attribute
     , headerStyle : Attribute
@@ -73,9 +68,7 @@ tale title =
   Tale
     { title = title
     , author = ""
-    , initialPlace = Place.empty
-    , places = Dict.empty
-    , commands = Dict.empty
+    , initialWorld = emptyWorld
     , preamble = defaultPreamble
     , pageStyle = Style.pageDefault
     , headerStyle = Style.preambleDefault
@@ -103,14 +96,8 @@ author (Tale tale) = tale.author
 
 {-|
 -}
-initialPlace : Tale -> Place
-initialPlace (Tale tale) = tale.initialPlace
-
-
-{-|
--}
-places : Tale -> Dict String Place
-places (Tale tale) = tale.places
+initialWorld : Tale -> World
+initialWorld (Tale tale) = tale.initialWorld
 
 
 {-|
@@ -266,7 +253,7 @@ thatBeginsIn : Place -> Tale -> Tale
 thatBeginsIn place (Tale tale) =
   Tale
     { tale
-    | initialPlace <- place
+    | initialWorld <- World.setCurrentPlace place tale.initialWorld
     }
     |> withPlace place
 
@@ -277,7 +264,8 @@ withPlace : Place -> Tale -> Tale
 withPlace place (Tale tale) =
   Tale
     { tale
-    | places <- Dict.insert (Place.name place) place tale.places
+    -- TODO: use update function.
+    | initialWorld <- World.updatePlaces (Dict.insert (Place.name place) place) tale.initialWorld
     }
 
 
@@ -287,5 +275,6 @@ withCommand : String -> CommandHandler -> Tale -> Tale
 withCommand name handler (Tale tale) =
   Tale
     { tale
-    | commands <- Dict.insert name handler tale.commands
+    -- TODO: use update function.
+    | initialWorld <- World.updateCommands (Dict.insert name handler) tale.initialWorld
     }

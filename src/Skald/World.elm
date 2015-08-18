@@ -4,11 +4,14 @@ module Skald.World
   , currentPlaceName
   , setCurrentPlaceName
   , setPlaces
+  , updatePlaces
   , getPlace
   , currentPlace
+  , setCurrentPlace
   , removeObject
   , commands
   , setCommands
+  , updateCommands
   , CommandHandler
   , CommandMap
   ) where
@@ -83,6 +86,13 @@ setPlaces places (World world) =
   World { world | places <- places }
 
 
+{-|
+-}
+updatePlaces : (Dict String Place -> Dict String Place) -> World -> World
+updatePlaces f (World world) =
+  World { world | places <- f world.places }
+
+
 -- TODO: "get" prefix seems redundant.
 
 {-| Retrieves the place with the given name from the given world.
@@ -137,3 +147,10 @@ commands (World world) =
 setCommands : CommandMap -> World -> World
 setCommands newCommands (World world) =
   World { world | commands <- newCommands }
+
+
+{-|
+-}
+updateCommands : (CommandMap -> CommandMap) -> World -> World
+updateCommands f (World world) =
+  World { world | commands <- f world.commands }

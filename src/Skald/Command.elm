@@ -15,7 +15,6 @@ import String
 import Skald.Object as Object
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
-import Skald.Tale as Tale exposing (Tale)
 import Skald.World as World exposing (World, CommandMap, CommandHandler)
 
 

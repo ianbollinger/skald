@@ -33,19 +33,10 @@ run tale =
 startUp : Tale -> Model -> Model
 startUp tale model =
   let
-    newModel = copyTaleIntoModel tale model
-    place = Place.name (Tale.initialPlace tale)
-    (description, newWorld) = Command.enterPlace place (Model.world newModel)
+    newModel = Model.setWorld (Tale.initialWorld tale) model
+    world = Model.world newModel
+    place = World.currentPlaceName world
+    (description, newWorld) = Command.enterPlace place world
   in
     Model.setWorld newWorld newModel
       |> Model.appendHistory description
-
-
-{-|
--}
-copyTaleIntoModel : Tale -> Model -> Model
-copyTaleIntoModel tale model =
-  let
-    newPlaces = World.setPlaces (Tale.places tale) (Model.world model)
-  in
-    Model.setWorld newPlaces model
