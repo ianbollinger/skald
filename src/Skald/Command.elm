@@ -104,7 +104,7 @@ defaultMap =
     |> insert "go(?:\\s+to)?(?:\\s+(\\S*))?" go
     |> insert "(?:take|get)(?:\\s+(\\S*))?" take
     |> insert "drop(?:\\s+(\\S*))?" drop
-    |> insert "debug" debug
+--    |> insert "debug" debug
 
 {-|
 -}
