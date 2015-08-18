@@ -50,13 +50,6 @@ import Skald.Place
 import Skald.Tale
 import Skald.World
 
--- TODO: allow markdown for everything.
--- TODO: we need to automatically scroll.
--- TODO: support for hyperlinks.
--- TODO: make exits first-class objects.
--- TODO: handle missing Dict keys sensibly.
--- TODO: being in the input field breaks scrolling.
-
 -- main ------------------------------------------------------------------------
 
 {-|

@@ -85,8 +85,6 @@ error string world =
   ([formatError string], world)
 
 
--- TODO: allow customization.
--- TODO: allow multi-word commands.
 commandMap : CommandMap
 commandMap =
   Dict.empty
@@ -103,12 +101,9 @@ look args world =
     [] ->
       describePlace (World.currentPlaceName world) world
 
-    -- TODO: normalize spaces to allow objects with spaces in their names.
     [ name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
-          -- TODO: algorithmically determine article and allow per-object
-          -- customization.
           say (Object.description found) world
 
         Nothing ->
@@ -139,8 +134,6 @@ take args world =
     [ name ] ->
       case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
-          -- TODO: algorithmically determine article and allow per-object
-          -- customization.
           say ("You take the **" ++ name ++ "**.")
             <| World.removeObject name world
 
@@ -183,7 +176,6 @@ formatError string =
   Html.div [ Style.errorDefault ] [ Markdown.toHtml string ]
 
 
--- TODO: This creates an invalid HTML DOM tree. (e.g., <p> inside <h2>)
 heading : String -> Html
 heading string =
   -- TODO: style.
