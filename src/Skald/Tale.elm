@@ -38,6 +38,7 @@ import Html exposing (Html, Attribute)
 
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
+import Skald.World exposing (CommandHandler, CommandMap)
 
 
 {-| See `Skald.elm` for documentation.
@@ -46,8 +47,12 @@ type Tale =
   Tale
     { title : String
     , author : String
+
+    -- TODO: instead of doing this, just duplicate World structure.
     , initialPlace : Place
     , places : Dict String Place
+    , commands : CommandMap
+
     , preamble : Tale -> Html
     , pageStyle : Attribute
     , headerStyle : Attribute
@@ -70,6 +75,7 @@ tale title =
     , author = ""
     , initialPlace = Place.empty
     , places = Dict.empty
+    , commands = Dict.empty
     , preamble = defaultPreamble
     , pageStyle = Style.pageDefault
     , headerStyle = Style.preambleDefault
@@ -272,4 +278,14 @@ withPlace place (Tale tale) =
   Tale
     { tale
     | places <- Dict.insert (Place.name place) place tale.places
+    }
+
+
+{-| See `Skald.elm` for documentation.
+-}
+withCommand : String -> CommandHandler -> Tale -> Tale
+withCommand name handler (Tale tale) =
+  Tale
+    { tale
+    | commands <- Dict.insert name handler tale.commands
     }

@@ -1,20 +1,36 @@
 module Skald.World
   ( World
+  , empty
   , currentPlaceName
   , setCurrentPlaceName
   , setPlaces
   , getPlace
   , currentPlace
   , removeObject
-  , empty
+  , commands
+  , setCommands
+  , CommandHandler
+  , CommandMap
   ) where
 
 {-|
 -}
 
 import Dict exposing (Dict)
+import Html exposing (Html)
 
 import Skald.Place as Place exposing (Place)
+
+
+{-|
+-}
+type alias CommandHandler = List String -> World -> (List Html, World)
+
+
+{-|
+-}
+type alias CommandMap = Dict String CommandHandler
+
 
 
 {-| See `Skald.elm` for documentation.
@@ -23,7 +39,9 @@ type World =
   World
     { currentPlace : String
     , places : Dict String Place
+    , commands : CommandMap
     }
+
 
 
 {-| An empty world.
@@ -33,6 +51,7 @@ empty =
   World
     { currentPlace = ""
     , places = Dict.empty
+    , commands = Dict.empty
     }
 
 
@@ -104,3 +123,17 @@ updateCurrentPlace f world =
 removeObject : String -> World -> World
 removeObject name world =
   updateCurrentPlace (Place.updateContents (Dict.remove name)) world
+
+
+{-|
+-}
+commands : World -> CommandMap
+commands (World world) =
+  world.commands
+
+
+{-|
+-}
+setCommands : CommandMap -> World -> World
+setCommands newCommands (World world) =
+  World { world | commands <- newCommands }

@@ -1,6 +1,7 @@
 module Skald.Command
   ( parse
   , enterPlace
+  , emptyWorld
   ) where
 
 {-|
@@ -15,44 +16,44 @@ import Skald.Object as Object
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
 import Skald.Tale as Tale exposing (Tale)
-import Skald.World as World exposing (World)
+import Skald.World as World exposing (World, CommandMap, CommandHandler)
+
+
+{-|
+-}
+type alias Map = CommandMap
+
+
+{-|
+-}
+type alias Handler = CommandHandler
 
 
 {-|
 -}
 parse : String -> World -> (List Html, World)
-parse field =
+parse field world =
   let
     words = String.words (String.toLower field)
   in
     case words of
       x :: xs ->
-        case Dict.get x commandMap of
+        case Dict.get x (World.commands world) of
           Just command ->
-            command xs
+            command xs world
 
           Nothing ->
-            error "I'm afraid I didn't understand that."
+            error "I'm afraid I didn't understand that." world
 
       _ ->
         -- TODO: this is impossible.
-        error "I'm afraid I didn't understand that."
+        error "I'm afraid I didn't understand that." world
 
 
 {-|
 -}
-type alias Map = Dict String Handler
-
-
-{-|
--}
-type alias Handler = List String -> World -> (List Html, World)
-
-
-{-|
--}
-commandMap : Map
-commandMap =
+defaultMap : Map
+defaultMap =
   Dict.empty
     |> Dict.insert "look" look
     |> Dict.insert "examine" look
@@ -62,6 +63,16 @@ commandMap =
     |> Dict.insert "think" think
 
 
+-- TODO: rename
+{-|
+-}
+emptyWorld : World
+emptyWorld =
+  World.setCommands defaultMap World.empty
+
+
+{-|
+-}
 think : Handler
 think args =
   case args of
