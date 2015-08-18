@@ -11,7 +11,7 @@ module Skald.World
 
 import Dict exposing (Dict)
 
-import Skald.Place exposing (Place)
+import Skald.Place as Place exposing (Place)
 
 
 {-| See `Skald.elm` for documentation.
@@ -69,7 +69,7 @@ getPlace : String -> World -> Place
 getPlace name world =
   case Dict.get name (places world) of
     Just place -> place
-    Nothing -> Skald.Place.empty
+    Nothing -> Place.empty
 
 
 {-| Retrieves the current place from the given world.
@@ -85,8 +85,9 @@ removeObject : String -> World -> World
 removeObject name world =
   let
     currentPlace' = currentPlace world
-    newPlace =
-      { currentPlace' | contents <- Dict.remove name currentPlace'.contents }
+    -- TODO: combine getter/setter?
+    newContents = Dict.remove name (Place.contents currentPlace')
+    newPlace = Place.updateContents newContents currentPlace'
   in
     updateCurrentPlace newPlace world
 

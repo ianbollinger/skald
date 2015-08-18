@@ -12,7 +12,7 @@ import String
 import Skald.Action exposing (Action (..))
 import Skald.Model as Model exposing (Model)
 import Skald.Object as Object
-import Skald.Place exposing (Place)
+import Skald.Place as Place exposing (Place)
 import Skald.Style as Style
 import Skald.Tale exposing (Tale)
 import Skald.World as World exposing (World)
@@ -102,7 +102,7 @@ look args world =
 
     -- TODO: normalize spaces to allow objects with spaces in their names.
     [ name ] ->
-      case Dict.get name ((World.currentPlace world).contents) of
+      case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
           -- TODO: algorithmically determine article and allow per-object
           -- customization.
@@ -119,7 +119,7 @@ go : CommandHandler
 go args world =
   case args of
     [ exit ] ->
-      case Dict.get exit (World.currentPlace world).exits of
+      case Dict.get exit (Place.exits (World.currentPlace world)) of
         Just newPlace ->
           enterPlace newPlace world
 
@@ -134,7 +134,7 @@ take : CommandHandler
 take args world =
   case args of
     [ name ] ->
-      case Dict.get name ((World.currentPlace world).contents) of
+      case Dict.get name (Place.contents (World.currentPlace world)) of
         Just found ->
           -- TODO: algorithmically determine article and allow per-object
           -- customization.
@@ -199,8 +199,8 @@ describePlace name world =
   let
     place = World.getPlace name world
     html =
-      [ heading place.name
-      , format place.description
+      [ heading (Place.name place)
+      , format (Place.description place)
       ]
         ++ listExits place
         ++ listContents place
@@ -214,7 +214,7 @@ listExits place =
     formatExit exit =
       format ("From here you can see an exit to the **" ++ exit ++ "**.")
   in
-    List.map formatExit (Dict.keys place.exits)
+    List.map formatExit (Dict.keys (Place.exits place))
 
 
 listContents : Place -> List Html
@@ -222,4 +222,4 @@ listContents place =
   let
     formatObject name = format ("You see a **" ++ name ++ "** here.")
   in
-    List.map formatObject (Dict.keys place.contents)
+    List.map formatObject (Dict.keys (Place.contents place))

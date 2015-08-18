@@ -171,5 +171,5 @@ withPlace : Place -> Tale -> Tale
 withPlace place (Tale tale) =
   Tale
     { tale
-    | places <- Dict.insert place.name place tale.places
+    | places <- Dict.insert (Place.name place) place tale.places
     }
