@@ -9,7 +9,7 @@ import Array as Array exposing (Array)
 import Dict as Dict
 import Html exposing (Html)
 
-import Skald.World exposing (World)
+import Skald.World as World exposing (World)
 
 
 type alias Model =
@@ -23,11 +23,7 @@ empty : Model
 empty =
   { entries = Array.empty
   , field = ""
-  , world =
-    -- TODO: get this from the World module.
-    { currentPlace = ""
-    , places = Dict.empty
-    }
+  , world = World.empty
   }
 
 

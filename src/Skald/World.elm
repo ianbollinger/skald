@@ -1,8 +1,12 @@
 module Skald.World
   ( World
+  , currentPlaceName
+  , updateCurrentPlaceName
+  , updatePlaces
   , getPlace
-  , getCurrentPlace
+  , currentPlace
   , removeObject
+  , empty
   ) where
 
 import Dict exposing (Dict)
@@ -16,11 +20,24 @@ type World = World
   }
 
 
+empty : World
+empty =
+  World
+    { currentPlace = ""
+    , places = Dict.empty
+    }
+
+
 {-| The current place for the given world.
 -}
 currentPlaceName : World -> String
 currentPlaceName (World world) =
   world.currentPlace
+
+
+updateCurrentPlaceName : String -> World -> World
+updateCurrentPlaceName placeName (World world) =
+  World { world | currentPlace <- placeName }
 
 
 {-| The places contained in the given world.
@@ -30,8 +47,8 @@ places (World world) =
   world.places
 
 
-updatePlaces : World -> Dict String Place -> World
-updatePlaces (World world) places =
+updatePlaces : Dict String Place -> World -> World
+updatePlaces places (World world) =
   World { world | places <- places }
 
 -- TODO: "get" prefix seems redundant.
@@ -40,15 +57,15 @@ updatePlaces (World world) places =
 -}
 getPlace : String -> World -> Place
 getPlace name world =
-  case Dict.get name world.places of
+  case Dict.get name (places world) of
     Just place -> place
     Nothing -> Skald.Place.empty
 
 
 {-| Retrieves the current place from the given world.
 -}
-getCurrentPlace : World -> Place
-getCurrentPlace world =
+currentPlace : World -> Place
+currentPlace world =
   getPlace (currentPlaceName world) world
 
 
@@ -57,8 +74,10 @@ getCurrentPlace world =
 removeObject : String -> World -> World
 removeObject name world =
   let
-    currentPlace = getCurrentPlace world
+    currentPlace' = currentPlace world
     newPlace =
-      { currentPlace | contents <- Dict.remove name currentPlace.contents }
+      { currentPlace' | contents <- Dict.remove name currentPlace'.contents }
+    newPlaces =
+      Dict.insert (currentPlaceName world) newPlace (places world)
   in
-    updatePlaces (Dict.insert (currentPlaceName world) newPlace (places world)) world
+    updatePlaces newPlaces world

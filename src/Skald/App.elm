@@ -10,6 +10,7 @@ import Skald.Tale exposing (Tale (Tale))
 import Skald.Model as Model exposing (Model, appendHistory)
 import Skald.Update exposing (update, enterPlace)
 import Skald.View exposing (view)
+import Skald.World as World
 
 
 run : Tale -> Signal Html
@@ -36,5 +37,5 @@ copyTaleIntoModel (Tale tale) model =
     oldWorld = model.world
   in
     { model
-    | world <- { oldWorld | places <- tale.places }
+    | world <- World.updatePlaces tale.places oldWorld
     }

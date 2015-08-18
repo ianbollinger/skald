@@ -10,11 +10,11 @@ import Markdown
 import String
 
 import Skald.Action exposing (Action (..))
-import Skald.Model exposing (Model, appendHistory)
+import Skald.Model as Model exposing (Model)
 import Skald.Place exposing (Place)
 import Skald.Style as Style
 import Skald.Tale exposing (Tale)
-import Skald.World as World exposing (World, getPlace, getCurrentPlace)
+import Skald.World as World exposing (World)
 
 -- update ----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ submitField tale model =
     (commandResult, newWorld) = parseCommand model.field model.world
   in
     model
-      |> appendHistory (echo tale model :: commandResult)
+      |> Model.appendHistory (echo tale model :: commandResult)
       |> clearInputField
       |> updateWorld newWorld
 
@@ -106,11 +106,11 @@ look : CommandHandler
 look args world =
   case args of
     [] ->
-      describePlace world.currentPlace world
+      describePlace (World.currentPlaceName world) world
 
     -- TODO: normalize spaces to allow objects with spaces in their names.
     [ name ] ->
-      case Dict.get name ((getCurrentPlace world).contents) of
+      case Dict.get name ((World.currentPlace world).contents) of
         Just found ->
           -- TODO: algorithmically determine article and allow per-object
           -- customization.
@@ -127,7 +127,7 @@ go : CommandHandler
 go args world =
   case args of
     [ exit ] ->
-      case Dict.get exit (getCurrentPlace world).exits of
+      case Dict.get exit (World.currentPlace world).exits of
         Just newPlace ->
           enterPlace newPlace world
 
@@ -142,7 +142,7 @@ take : CommandHandler
 take args world =
   case args of
     [ name ] ->
-      case Dict.get name ((getCurrentPlace world).contents) of
+      case Dict.get name ((World.currentPlace world).contents) of
         Just found ->
           -- TODO: algorithmically determine article and allow per-object
           -- customization.
@@ -198,17 +198,14 @@ heading string =
 
 enterPlace : String -> World -> (List Html, World)
 enterPlace name world =
-  let
-    newWorld =
-      { world | currentPlace <- name }
-  in
-    describePlace name newWorld
+  World.updateCurrentPlaceName name world
+    |> describePlace name
 
 
 describePlace : String -> World -> (List Html, World)
 describePlace name world =
   let
-    place = getPlace name world
+    place = World.getPlace name world
     html =
       [ heading place.name
       , format place.description
