@@ -13,7 +13,7 @@ import Signal exposing (Address)
 
 import Native.Skald
 import Skald.Action exposing (Action (..))
-import Skald.Model exposing (Model)
+import Skald.Model as Model exposing (Model)
 import Skald.Tale exposing (Tale (Tale))
 
 
@@ -23,8 +23,8 @@ view (Tale tale) address model =
   Native.Skald.scrollToBottom <|
     Html.article [ tale.pageStyle ]
       [ tale.preamble (Tale tale)
-      , history (Tale tale) model.entries
-      , inputField (Tale tale) address model.field
+      , history (Tale tale) (Model.history model)
+      , inputField (Tale tale) address (Model.inputField model)
       ]
 
 

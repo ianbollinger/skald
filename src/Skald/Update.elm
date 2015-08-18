@@ -26,10 +26,10 @@ update tale action model =
       model
 
     UpdateField string ->
-      { model | field <- string }
+      Model.updateInputField string model
 
     SubmitField ->
-      if String.isEmpty model.field
+      if String.isEmpty (Model.inputField model)
         then model
         else submitField tale model
 
@@ -40,7 +40,8 @@ clears the field.
 submitField : Tale -> Model -> Model
 submitField tale model =
   let
-    (commandResult, newWorld) = parseCommand model.field model.world
+    (commandResult, newWorld) =
+      parseCommand (Model.inputField model) (Model.world model)
   in
     model
       |> Model.appendHistory (echo tale model :: commandResult)
@@ -52,7 +53,7 @@ submitField tale model =
 -}
 echo : Tale -> Model -> Html
 echo (Skald.Tale.Tale tale) model =
-  Html.p [ tale.echoStyle ] [ Html.text (model.field) ]
+  Html.p [ tale.echoStyle ] [ Html.text (Model.inputField model) ]
 
 
 -- command ---------------------------------------------------------------------
