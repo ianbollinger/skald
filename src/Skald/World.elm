@@ -14,12 +14,16 @@ import Dict exposing (Dict)
 import Skald.Place exposing (Place)
 
 
+{-| See `Skald.elm` for documentation.
+-}
 type World = World
   { currentPlace : String
   , places : Dict String Place
   }
 
 
+{-| An empty world.
+-}
 empty : World
 empty =
   World
@@ -35,6 +39,8 @@ currentPlaceName (World world) =
   world.currentPlace
 
 
+{-| Update the current place (by name) for the given world.
+-}
 updateCurrentPlaceName : String -> World -> World
 updateCurrentPlaceName placeName (World world) =
   World { world | currentPlace <- placeName }
@@ -47,6 +53,8 @@ places (World world) =
   world.places
 
 
+{-| Update the places contained in the given world.
+-}
 updatePlaces : Dict String Place -> World -> World
 updatePlaces places (World world) =
   World { world | places <- places }
