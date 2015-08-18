@@ -24,14 +24,20 @@ module Skald
 {-|
 @docs run
 
+# Tales
+
 @docs tale
 @docs by, withPreamble, thatBeginsIn, withPlace
 @docs withPageStyle, withPreambleStyle, withTitleStyle, withByLineStyle,
       withHistoryStyle, withEchoStyle, withErrorStyle, withInputStyle,
       withFieldStyle
 
+# Places
+
 @docs place
 @docs withExit, withObject
+
+# Objects
 
 @docs object
 -}
@@ -202,6 +208,8 @@ withObject =
 
 -- object ----------------------------------------------------------------------
 
+{-|
+-}
 type alias Object = Skald.Object.Object
 
 
