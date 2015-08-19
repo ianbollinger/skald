@@ -229,21 +229,22 @@ andThen (html1, world) f =
 {-| Converts a function over worlds into a command.
 -}
 toAction : (World -> World) -> Action
-toAction f world = ([], f world)
+toAction f world =
+  ([], f world)
 
 
 {-|
 -}
 destroyObject : Object -> Action
-destroyObject object =
-  toAction (World.removeObject object)
+destroyObject =
+  toAction << World.removeObject
 
 
 {-|
 -}
 createObject : Object -> Action
-createObject object =
-  toAction (World.addObject object)
+createObject =
+  toAction << World.addObject
 
 
 {-|
@@ -256,8 +257,8 @@ addToInventory object =
 {-|
 -}
 removeFromInventory : Object -> Action
-removeFromInventory object =
-  toAction (World.updateInventory (Dict.remove (Object.name object)))
+removeFromInventory =
+  toAction << World.updateInventory << Dict.remove << Object.name
 
 
 {-|
@@ -285,9 +286,8 @@ error string world =
 {-|
 -}
 enterPlace : Place -> Action
-enterPlace place world =
-  World.setCurrentPlace place world
-    |> describePlace place
+enterPlace place =
+  describePlace place << World.setCurrentPlace place
 
 
 {-| See `Skald.elm` for documentation.
@@ -331,8 +331,8 @@ listContents place =
 {-|
 -}
 format : String -> Html
-format string =
-  Markdown.toHtml string
+format =
+  Markdown.toHtml
 
 
 {-|
