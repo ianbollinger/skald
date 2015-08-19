@@ -28,6 +28,7 @@ type Place =
     { name : String
     , description : String
     , exits : Dict String String
+    -- TODO: rename "contents", yuk.
     , contents : Dict String Object
     }
 

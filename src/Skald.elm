@@ -3,6 +3,21 @@ module Skald
 
   , Tale
   , tale
+
+  , title
+  , author
+  , initialWorld
+  , preamble
+  , pageStyle
+  , preambleStyle
+  , titleStyle
+  , byLineStyle
+  , historyStyle
+  , echoStyle
+  , errorStyle
+  , inputStyle
+  , fieldStyle
+
   , by
   , withPreamble
   , withPageStyle
@@ -49,9 +64,13 @@ module Skald
 
 @docs Tale
 @docs tale
+@docs title, author, initialWorld, preamble
 @docs by, withPreamble, thatBeginsIn, withPlace, withCommand
 
-# Tale styles
+## Tale styles
+
+@docs pageStyle, preambleStyle, titleStyle, byLineStyle, historyStyle,
+      echoStyle, errorStyle, inputStyle, fieldStyle
 
 @docs withPageStyle, withPreambleStyle, withTitleStyle, withByLineStyle,
       withHistoryStyle, withEchoStyle, withErrorStyle, withInputStyle,
@@ -113,6 +132,99 @@ type alias Tale = Skald.Tale.Tale
 tale : String -> Tale
 tale =
   Skald.Tale.tale
+
+
+{-| The title of the given tale.
+-}
+title : Tale -> String
+title =
+   Skald.Tale.title
+
+
+{-| The author name of the given tale.
+-}
+author : Tale -> String
+author =
+   Skald.Tale.author
+
+
+{-| The style attribute for the preamble.
+-}
+initialWorld : Tale -> World
+initialWorld =
+   Skald.Tale.initialWorld
+
+
+{-| The function to be called when the tale begins.
+
+The default behavior is to display the tale title and author by-line.
+-}
+preamble : Tale -> (Tale -> Html)
+preamble =
+   Skald.Tale.preamble
+
+
+{-| The style attribute for the entire page.
+-}
+pageStyle : Tale -> Styles
+pageStyle =
+   Skald.Tale.pageStyle
+
+
+{-|
+-}
+preambleStyle : Tale -> Styles
+preambleStyle =
+   Skald.Tale.preambleStyle
+
+
+{-| The style attribute for the default preamble's title.
+-}
+titleStyle : Tale -> Styles
+titleStyle =
+   Skald.Tale.titleStyle
+
+
+{-| The style attribute for the default preamble's by-line.
+-}
+byLineStyle : Tale -> Styles
+byLineStyle =
+   Skald.Tale.byLineStyle
+
+
+{-| The style attribute for the tale's history.
+-}
+historyStyle : Tale -> Styles
+historyStyle =
+   Skald.Tale.historyStyle
+
+
+{-| The style attribute for echoed input.
+-}
+echoStyle : Tale -> Styles
+echoStyle =
+   Skald.Tale.echoStyle
+
+
+{-| The style attribute for error messages.
+-}
+errorStyle : Tale -> Styles
+errorStyle =
+   Skald.Tale.errorStyle
+
+
+{-| The style attribute for the input area.
+-}
+inputStyle : Tale -> Styles
+inputStyle =
+   Skald.Tale.inputStyle
+
+
+{-| The style attribute for the input field.
+-}
+fieldStyle : Tale -> Styles
+fieldStyle =
+   Skald.Tale.fieldStyle
 
 
 {-| Sets the author's name for the given tale.
