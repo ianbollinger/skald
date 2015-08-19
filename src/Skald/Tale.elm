@@ -44,7 +44,7 @@ import Html exposing (Html)
 import Html.Attributes exposing (style)
 import Regex exposing (regex)
 
-import Skald.Command as Command exposing (emptyWorld)
+import Skald.Action as Action
 import Skald.Place as Place exposing (Place)
 import Skald.Style as Style exposing (Styles)
 import Skald.World as World exposing (World, CommandHandler, CommandMap)
@@ -77,7 +77,7 @@ tale title =
   Tale
     { title = title
     , author = ""
-    , initialWorld = emptyWorld
+    , initialWorld = Action.emptyWorld
     , preamble = defaultPreamble
     , pageStyle = Style.pageDefault
     , preambleStyle = Style.preambleDefault
@@ -296,7 +296,7 @@ withPlace place (Tale tale) =
 withCommand : String -> CommandHandler -> Tale -> Tale
 withCommand pattern handler (Tale tale) =
   let
-    update = Command.insert pattern handler
+    update = Action.insert pattern handler
     newWorld = World.updateCommands update tale.initialWorld
   in
     Tale { tale | initialWorld <- newWorld }

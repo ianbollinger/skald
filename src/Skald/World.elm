@@ -123,7 +123,7 @@ getPlace name world =
     Nothing -> Place.empty
 
 
-{-| Retrieves the current place from the given world.
+{-| See `Skald.elm` for documentation.
 -}
 currentPlace : World -> Place
 currentPlace (World world) =

@@ -51,7 +51,7 @@ module Skald
   , Object
   , object
 
-  , Command
+  , Action
   , andThen
   , say
   , error
@@ -101,7 +101,7 @@ module Skald
 
 # Commands
 
-@docs Command
+@docs Action
 @docs andThen, say, error, doNothing, describeObject, describePlace,
       removeFromInventory, createObject
 
@@ -109,8 +109,8 @@ module Skald
 
 import Html exposing (Html)
 
+import Skald.Action
 import Skald.App
-import Skald.Command
 import Skald.Object
 import Skald.Place
 import Skald.Style exposing (Styles)
@@ -330,7 +330,7 @@ withPlace =
 
 {-| `withCommand pattern handler tale`
 -}
-withCommand : String -> Skald.Command.Handler -> Tale -> Tale
+withCommand : String -> Skald.Action.Handler -> Tale -> Tale
 withCommand =
   Skald.Tale.withCommand
 
@@ -401,65 +401,64 @@ object : String -> String -> Object
 object =
   Skald.Object.object
 
--- command ---------------------------------------------------------------------
+-- action ----------------------------------------------------------------------
 
--- TODO: this name is confusing. Name it Action or Reaction?
 {-|
 -}
-type alias Command = Skald.Command.Command
+type alias Action = Skald.Action.Action
 
 
-{-| Sequences two commands.
+{-| Sequences two actions.
 -}
-andThen : (List Html, World) -> Command -> (List Html, World)
+andThen : (List Html, World) -> Action -> (List Html, World)
 andThen =
-  Skald.Command.andThen
+  Skald.Action.andThen
 
 
 {-| A command that does nothing.
 -}
-doNothing : Command
+doNothing : Action
 doNothing =
-  Skald.Command.doNothing
+  Skald.Action.doNothing
 
 
 {-| Writes a Markdown-styled string to the history.
 -}
-say : String -> Command
+say : String -> Action
 say =
-  Skald.Command.say
+  Skald.Action.say
 
 
 {-| Writes a Markdown-styled string to the history using the error style.
 -}
-error : String -> Command
+error : String -> Action
 error =
-  Skald.Command.error
+  Skald.Action.error
 
 
 {-| Writes the place's title, description, exits, and contents to the history.
 -}
-describePlace : Place -> Command
+describePlace : Place -> Action
 describePlace =
-  Skald.Command.describePlace
+  Skald.Action.describePlace
 
 
 {-| Writes the object's description to the history.
 -}
-describeObject : Object -> Command
+describeObject : Object -> Action
 describeObject =
-  Skald.Command.describeObject
+  Skald.Action.describeObject
 
 
 {-| Removes an object from the player's inventory.
 -}
-removeFromInventory : Object -> Command
+removeFromInventory : Object -> Action
 removeFromInventory =
-  Skald.Command.removeFromInventory
+  Skald.Action.removeFromInventory
 
 
 {-| Inserts an object into the current place.
 -}
-createObject : Object -> Command
+createObject : Object -> Action
 createObject =
-  Skald.Command.createObject
+  Skald.Action.createObject

@@ -23,7 +23,7 @@ import Array as Array exposing (Array)
 import Dict as Dict
 import Html exposing (Html)
 
-import Skald.Command as Command
+import Skald.Action as Action
 import Skald.World as World exposing (World)
 
 
@@ -44,7 +44,7 @@ empty =
   Model
     { history = Array.empty
     , field = ""
-    , world = Command.emptyWorld
+    , world = Action.emptyWorld
     }
 
 

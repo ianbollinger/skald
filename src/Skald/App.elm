@@ -14,7 +14,7 @@ module Skald.App
 import Html exposing (Html)
 import StartApp
 
-import Skald.Command as Command
+import Skald.Action as Action
 import Skald.Model as Model exposing (Model)
 import Skald.Place as Place
 import Skald.Tale as Tale exposing (Tale)
@@ -42,7 +42,7 @@ startUp tale model =
     newModel = Model.setWorld (Tale.initialWorld tale) model
     world = Model.world newModel
     (description, newWorld) =
-      Command.enterPlace (World.currentPlace world) world
+      Action.enterPlace (World.currentPlace world) world
   in
     Model.setWorld newWorld newModel
       |> Model.appendHistory description

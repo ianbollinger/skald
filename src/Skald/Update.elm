@@ -16,8 +16,8 @@ import Html exposing (Html)
 import Html.Attributes exposing (style)
 import String
 
-import Skald.Action exposing (Action (..))
-import Skald.Command as Command
+import Skald.Action as Action
+import Skald.AppAction exposing (AppAction (..))
 import Skald.Model as Model exposing (Model)
 import Skald.Object as Object
 import Skald.Place as Place exposing (Place)
@@ -27,7 +27,7 @@ import Skald.World as World exposing (World)
 
 -- update ----------------------------------------------------------------------
 
-update :  Tale -> Action -> Model -> Model
+update :  Tale -> AppAction -> Model -> Model
 update tale action model =
   case action of
     NoOp ->
@@ -49,7 +49,7 @@ submitField : Tale -> Model -> Model
 submitField tale model =
   let
     (commandResult, newWorld) =
-      Command.parse (Model.inputField model) (Model.world model)
+      Action.parse (Model.inputField model) (Model.world model)
   in
     model
       |> Model.appendHistory (echo tale model :: commandResult)

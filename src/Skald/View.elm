@@ -20,12 +20,12 @@ import Keyboard.Keys as Keys
 import Signal exposing (Address)
 
 import Native.Skald
-import Skald.Action exposing (Action (..))
+import Skald.AppAction exposing (AppAction (..))
 import Skald.Model as Model exposing (Model)
 import Skald.Tale as Tale exposing (Tale)
 
 
-view : Tale -> Address Action -> Model -> Html
+view : Tale -> Address AppAction -> Model -> Html
 view tale address model =
   -- TODO: this needs to be moved to where it will work 100% of the time.
   Native.Skald.scrollToBottom <|
@@ -43,7 +43,7 @@ history tale entries =
   Html.div [ style (Tale.historyStyle tale) ] (Array.toList entries)
 
 
-inputField : Tale -> Address Action -> String -> Html
+inputField : Tale -> Address AppAction -> String -> Html
 inputField tale address string =
   Html.div [ style (Tale.inputStyle tale) ]
     [ input
