@@ -189,7 +189,7 @@ inventory (World world) =
   world.inventory
 
 
-{-| Returns the item with the given name from the inventory if it exists.
+{-| See `Skald.elm` for documentation.
 -}
 item : String -> World -> Maybe Object
 item name (World world) =

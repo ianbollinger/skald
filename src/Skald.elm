@@ -50,6 +50,9 @@ module Skald
 @docs Tale
 @docs tale
 @docs by, withPreamble, thatBeginsIn, withPlace, withCommand
+
+# Tale styles
+
 @docs withPageStyle, withPreambleStyle, withTitleStyle, withByLineStyle,
       withHistoryStyle, withEchoStyle, withErrorStyle, withInputStyle,
       withFieldStyle
@@ -207,7 +210,7 @@ withPlace =
   Skald.Tale.withPlace
 
 
-{-|
+{-| `withCommand pattern handler tale`
 -}
 withCommand : String -> Skald.Command.Handler -> Tale -> Tale
 withCommand =
@@ -220,14 +223,14 @@ withCommand =
 type alias World = Skald.World.World
 
 
-{-| Retrieves the current place from the given world.
+{-| The current place of the player in the given world.
 -}
 currentPlace : World -> Place
 currentPlace =
   Skald.World.currentPlace
 
 
-{-|
+{-| The item with the given name from the player's inventory, if it exists.
 -}
 item : String -> World -> Maybe Object
 item =
@@ -247,7 +250,7 @@ place =
   Skald.Place.place
 
 
-{-|
+{-| `withExit direction exitName place`
 -}
 withExit : String -> String -> Place -> Place
 withExit =
@@ -261,12 +264,11 @@ withObject =
   Skald.Place.withObject
 
 
-{-|
+{-| `exitName direction place`
 -}
 exitName : String -> Place -> Maybe String
 exitName =
   Skald.Place.exitName
-
 
 -- object ----------------------------------------------------------------------
 
@@ -283,61 +285,62 @@ object =
 
 -- command ---------------------------------------------------------------------
 
+-- TODO: this name is confusing. Name it Action or Reaction?
 {-|
 -}
 type alias Command = Skald.Command.Command
 
 
-{-|
+{-| Sequences two commands.
 -}
 andThen : (List Html, World) -> Command -> (List Html, World)
 andThen =
   Skald.Command.andThen
 
 
-{-|
+{-| A command that does nothing.
 -}
 doNothing : Command
 doNothing =
   Skald.Command.doNothing
 
 
-{-|
+{-| Writes a Markdown-styled string to the history.
 -}
 say : String -> Command
 say =
   Skald.Command.say
 
 
-{-|
+{-| Writes a Markdown-styled string to the history using the error style.
 -}
 error : String -> Command
 error =
   Skald.Command.error
 
 
-{-|
+{-| Writes the place's title, description, exits, and contents to the history.
 -}
 describePlace : Place -> Command
 describePlace =
   Skald.Command.describePlace
 
 
-{-|
+{-| Writes the object's description to the history.
 -}
 describeObject : Object -> Command
 describeObject =
   Skald.Command.describeObject
 
 
-{-|
+{-| Removes an object from the player's inventory.
 -}
 removeFromInventory : Object -> Command
 removeFromInventory =
   Skald.Command.removeFromInventory
 
 
-{-|
+{-| Inserts an object into the current place.
 -}
 createObject : Object -> Command
 createObject =
