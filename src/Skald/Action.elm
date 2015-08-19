@@ -226,39 +226,38 @@ andThen (html1, world) f =
     (html1 ++ html2, world2)
 
 
--- TODO: rename.
 {-| Converts a function over worlds into a command.
 -}
-lift : (World -> World) -> Action
-lift f world = ([], f world)
+toAction : (World -> World) -> Action
+toAction f world = ([], f world)
 
 
 {-|
 -}
 destroyObject : Object -> Action
 destroyObject object =
-  lift (World.removeObject object)
+  toAction (World.removeObject object)
 
 
 {-|
 -}
 createObject : Object -> Action
 createObject object =
-  lift (World.addObject object)
+  toAction (World.addObject object)
 
 
 {-|
 -}
 addToInventory : Object -> Action
 addToInventory object =
-  lift (World.updateInventory (Dict.insert (Object.name object) object))
+  toAction (World.updateInventory (Dict.insert (Object.name object) object))
 
 
 {-|
 -}
 removeFromInventory : Object -> Action
 removeFromInventory object =
-  lift (World.updateInventory (Dict.remove (Object.name object)))
+  toAction (World.updateInventory (Dict.remove (Object.name object)))
 
 
 {-|
