@@ -16,7 +16,6 @@ import StartApp
 
 import Skald.Action as Action
 import Skald.Model as Model exposing (Model)
-import Skald.Place as Place
 import Skald.Tale as Tale exposing (Tale)
 import Skald.Update exposing (update)
 import Skald.View exposing (view)
