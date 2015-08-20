@@ -106,6 +106,7 @@ objects (Place place) =
 
 {-|
 -}
+object : String -> Place -> Maybe Object
 object name (Place place) =
   Dict.get name place.objects
 
