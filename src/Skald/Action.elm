@@ -110,10 +110,10 @@ insert string handler map =
 -}
 defaultMap : Map
 defaultMap =
-  insert "(?:examine|look(?:\\s+at)?|x)(?:\\s+(\\S*))?" look []
-    |> insert "go(?:\\s+to)?(?:\\s+(\\S*))?" go
-    |> insert "(?:take|get)(?:\\s+(\\S*))?" take
-    |> insert "drop(?:\\s+(\\S*))?" drop
+  insert "(?:examine|look(?: at)?|x)(?: (\\S*))?" look []
+    |> insert "go(?: to)?(?: (\\S*))?" go
+    |> insert "(?:take|get)(?: (\\S*))?" take
+    |> insert "drop(?: (\\S*))?" drop
     |> insert "(north|east|south|west|n|e|s|w)" goShorthand
 --    |> insert "debug" debug
 
@@ -165,22 +165,22 @@ describeObject object =
 
 
 goShorthand : Handler
-goShorthand args world =
+goShorthand args =
   case args of
     [ "n" ] ->
-      go ["north"] world
+      go ["north"]
 
     [ "e" ] ->
-      go ["east"] world
+      go ["east"]
 
     [ "s" ] ->
-      go ["south"] world
+      go ["south"]
 
     [ "w" ] ->
-      go ["west"] world
+      go ["west"]
 
-    [ _ ] ->
-      go args world
+    _ ->
+      go args
 
 
 {-|
@@ -330,22 +330,22 @@ describePlace place world =
 {-|
 -}
 listExits : Place -> List Html
-listExits place =
+listExits =
   let
     formatExit exit =
       format ("From here you can see an exit to the **" ++ exit ++ "**.")
   in
-    List.map formatExit (Dict.keys (Place.exits place))
+    List.map formatExit << Dict.keys << Place.exits
 
 
 {-|
 -}
 listContents : Place -> List Html
-listContents place =
+listContents =
   let
     formatObject name = format ("You see a **" ++ name ++ "** here.")
   in
-    List.map formatObject (Dict.keys (Place.contents place))
+    List.map formatObject << Dict.keys << Place.contents
 
 -- html ------------------------------------------------------------------------
 

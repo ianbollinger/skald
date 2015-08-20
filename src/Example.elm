@@ -11,8 +11,8 @@ main =
     |> by "Ian D. Bollinger"
     |> thatBeginsIn theRoom
     |> withPlace otherRoom
-    |> withCommand "think(?:\\s+about)?(?:\\s+(\\S+))?" think
-    |> withCommand "throw(?:\\s+(\\S+))?" throw
+    |> withCommand "think(?: about)?(?: (\\S+))?" think
+    |> withCommand "throw(?: (\\S+))?" throw
     |> run
 
 theRoom =
