@@ -148,21 +148,18 @@ updateCurrentPlace f world =
 {-| Removes the object from the current place.
 -}
 removeObject : Object -> World -> World
-removeObject object world =
-  let
-    update = Place.updateObjects (Dict.remove (Object.name object))
-  in
-    updateCurrentPlace update world
+removeObject =
+    updateCurrentPlace << Place.updateObjects << Dict.remove << Object.name
 
 
 {-| Adds an object to the current place.
 -}
 addObject : Object -> World -> World
-addObject object world =
+addObject object =
   let
     update = Place.updateObjects (Dict.insert (Object.name object) object)
   in
-    updateCurrentPlace update world
+    updateCurrentPlace update
 
 
 {-|
