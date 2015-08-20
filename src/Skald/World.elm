@@ -112,7 +112,7 @@ updatePlaces f (World world) =
   World { world | places <- f world.places }
 
 
-{-| Retrieves the place with the given name from the given world.
+{-| See `Skald.elm` for documentation.
 -}
 place : String -> World -> Place
 place name world =

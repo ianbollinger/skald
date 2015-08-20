@@ -37,7 +37,7 @@ think args =
 throw args world =
   case args of
     [ name ] ->
-      case item name world of
+      case getItem name world of
         Just object ->
           say ("You throw the **" ++ name ++ "** at nothing in particular.") world
             `andThen` removeFromInventory object

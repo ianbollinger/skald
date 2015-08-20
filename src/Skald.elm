@@ -41,7 +41,8 @@ module Skald
 
   , World
   , currentPlace
-  , item
+  , getItem
+  , getPlace
 
   , Place
   , place
@@ -85,8 +86,8 @@ module Skald
 # Worlds
 
 @docs World
-@docs currentPlace
-@docs item
+@docs currentPlace, getPlace
+@docs getItem
 
 # Places
 
@@ -347,11 +348,17 @@ currentPlace : World -> Place
 currentPlace =
   Skald.World.currentPlace
 
+{-| Retrieves the place with the given name from the given world.
+-}
+getPlace : String -> World -> Place
+getPlace =
+  Skald.World.place
+
 
 {-| The item with the given name from the player's inventory, if it exists.
 -}
-item : String -> World -> Maybe Object
-item =
+getItem : String -> World -> Maybe Object
+getItem =
   Skald.World.item
 
 -- place -----------------------------------------------------------------------
