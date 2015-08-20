@@ -12,8 +12,8 @@ module Skald.Place
   , description
   , exits
   , exitName
-  , contents
-  , updateContents
+  , objects
+  , updateObjects
   , empty
   , withExit
   , withObject
@@ -33,10 +33,19 @@ type Place =
   Place
     { name : String
     , description : String
-    , exits : Dict String String
-    -- TODO: rename "contents", yuk.
-    , contents : Dict String Object
+    , exits : Exits
+    , objects : Objects
     }
+
+
+{-|
+-}
+type alias Exits = Dict String String
+
+
+{-|
+-}
+type alias Objects = Dict String Object
 
 
 {-|
@@ -48,16 +57,16 @@ toString (Place place) =
       "Dict.fromList \n              [ "
       ++ Dict.foldr (\x y z -> "(\"" ++ x ++ "\", \"" ++ y ++ "\")\n              " ++ z) "" place.exits
       ++ "]"
-    contentsToString =
+    objectsToString =
       "Dict.fromList \n              [ "
-      ++ Dict.foldr (\x y z -> "(\"" ++ x ++ "\", \"" ++ (Object.name y) ++ "\")\n              " ++ z) "" place.contents
+      ++ Dict.foldr (\x y z -> "(\"" ++ x ++ "\", \"" ++ (Object.name y) ++ "\")\n              " ++ z) "" place.objects
       ++ "]"
   in
     "Place
             { name = \"" ++ place.name ++ "\"
             , description = \"" ++ place.description ++ "\"
             , exits = " ++ exitsToString ++ "
-            , contents = " ++ contentsToString ++ "
+            , objects = " ++ objectsToString ++ "
             }"
 
 
@@ -69,7 +78,7 @@ place name description =
     { name = name
     , description = description
     , exits = Dict.empty
-    , contents = Dict.empty
+    , objects = Dict.empty
     }
 
 
@@ -89,14 +98,14 @@ description (Place place) =
 
 {-|
 -}
-contents : Place -> Dict String Object
-contents (Place place) =
-  place.contents
+objects : Place -> Objects
+objects (Place place) =
+  place.objects
 
 
 {-|
 -}
-exits : Place -> Dict String String
+exits : Place -> Exits
 exits (Place place) =
   place.exits
 
@@ -110,9 +119,9 @@ exitName exit (Place place) =
 
 {-|
 -}
-updateContents : (Dict String Object -> Dict String Object) -> Place -> Place
-updateContents f (Place place) =
-  Place { place | contents <- f place.contents }
+updateObjects : (Objects -> Objects) -> Place -> Place
+updateObjects f (Place place) =
+  Place { place | objects <- f place.objects }
 
 
 {-| An empty place.
@@ -133,8 +142,5 @@ withExit exit to (Place from) =
 {-| See `Skald.elm` for documentation.
 -}
 withObject : Object -> Place -> Place
-withObject object (Place place) =
-  let
-    newContents = Dict.insert (Object.name object) object place.contents
-  in
-    Place { place | contents <- newContents }
+withObject object =
+  updateObjects (Dict.insert (Object.name object) object)

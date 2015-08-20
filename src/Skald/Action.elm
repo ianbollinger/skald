@@ -144,7 +144,7 @@ look args world =
         describePlace currentPlace world
 
       [ name ] ->
-        case Dict.get name (Place.contents currentPlace) of
+        case Dict.get name (Place.objects currentPlace) of
           Just found ->
             describeObject found world
 
@@ -206,7 +206,7 @@ take : Handler
 take args world =
   case args of
     [ name ] ->
-      case Dict.get name (Place.contents (World.currentPlace world)) of
+      case Dict.get name (Place.objects (World.currentPlace world)) of
         Just found ->
           addToInventory found world
             `andThen` destroyObject found
@@ -322,7 +322,7 @@ describePlace place world =
       , format (Place.description place)
       ]
         ++ listExits place
-        ++ listContents place
+        ++ listObjects place
   in
     (html, world)
 
@@ -340,12 +340,12 @@ listExits =
 
 {-|
 -}
-listContents : Place -> List Html
-listContents =
+listObjects : Place -> List Html
+listObjects =
   let
     formatObject name = format ("You see a **" ++ name ++ "** here.")
   in
-    List.map formatObject << Dict.keys << Place.contents
+    List.map formatObject << Dict.keys << Place.objects
 
 -- html ------------------------------------------------------------------------
 

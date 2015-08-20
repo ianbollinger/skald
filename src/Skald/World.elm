@@ -150,7 +150,7 @@ updateCurrentPlace f world =
 removeObject : Object -> World -> World
 removeObject object world =
   let
-    update = Place.updateContents (Dict.remove (Object.name object))
+    update = Place.updateObjects (Dict.remove (Object.name object))
   in
     updateCurrentPlace update world
 
@@ -160,7 +160,7 @@ removeObject object world =
 addObject : Object -> World -> World
 addObject object world =
   let
-    update = Place.updateContents (Dict.insert (Object.name object) object)
+    update = Place.updateObjects (Dict.insert (Object.name object) object)
   in
     updateCurrentPlace update world
 
