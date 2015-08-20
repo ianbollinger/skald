@@ -144,7 +144,7 @@ look args world =
         describePlace currentPlace world
 
       [ name ] ->
-        case Dict.get name (Place.objects currentPlace) of
+        case Place.object name currentPlace of
           Just found ->
             describeObject found world
 
@@ -206,7 +206,7 @@ take : Handler
 take args world =
   case args of
     [ name ] ->
-      case Dict.get name (Place.objects (World.currentPlace world)) of
+      case Place.object name (World.currentPlace world) of
         Just found ->
           addToInventory found world
             `andThen` destroyObject found

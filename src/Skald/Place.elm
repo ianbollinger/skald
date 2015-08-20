@@ -13,6 +13,7 @@ module Skald.Place
   , exits
   , exitName
   , objects
+  , object
   , updateObjects
   , empty
   , withExit
@@ -101,6 +102,12 @@ description (Place place) =
 objects : Place -> Objects
 objects (Place place) =
   place.objects
+
+
+{-|
+-}
+object name (Place place) =
+  Dict.get name place.objects
 
 
 {-|

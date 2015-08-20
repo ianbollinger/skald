@@ -49,6 +49,7 @@ module Skald
   , withExit
   , withObject
   , getExitName
+  , getObject
 
   , Object
   , object
@@ -94,7 +95,7 @@ module Skald
 
 @docs Place
 @docs place
-@docs withExit, withObject, getExitName
+@docs withExit, withObject, getExitName, getObject
 
 # Objects
 
@@ -395,6 +396,13 @@ withObject =
 getExitName : String -> Place -> Maybe String
 getExitName =
   Skald.Place.exitName
+
+
+{-|
+-}
+getObject : String -> Place -> Maybe Object
+getObject =
+  Skald.Place.object
 
 -- object ----------------------------------------------------------------------
 
