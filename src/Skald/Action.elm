@@ -63,8 +63,9 @@ type alias Action = World -> Result
 parse : String -> Action
 parse field world =
   let
+    field' = String.join " " (String.words (String.toLower field))
     matcher (regex, command) =
-      (Regex.find (Regex.AtMost 1) regex field, command)
+      (Regex.find (Regex.AtMost 1) regex field', command)
     predicate (x, _) = not (List.isEmpty x)
   in
     case mapFirst matcher predicate (World.commands world) of
@@ -102,7 +103,7 @@ mapFirst operation predicate list =
 -}
 insert : String -> Handler -> Map -> Map
 insert string handler map =
-  (Regex.caseInsensitive (regex ("^\\s*" ++ string ++ "\\s*$")), handler) :: map
+  (regex ("^" ++ string ++ "$"), handler) :: map
 
 
 {-|
@@ -180,6 +181,7 @@ goShorthand args world =
 
     [ _ ] ->
       go args world
+
 
 {-|
 -}
