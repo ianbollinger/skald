@@ -40,7 +40,7 @@ module Skald
   , withCommand
 
   , World
-  , currentPlace
+  , getCurrentPlace
   , getItem
   , getPlace
 
@@ -48,6 +48,7 @@ module Skald
   , place
   , withExit
   , withObject
+  , getExitName
 
   , Object
   , object
@@ -86,14 +87,14 @@ module Skald
 # Worlds
 
 @docs World
-@docs currentPlace, getPlace
+@docs getCurrentPlace, getPlace
 @docs getItem
 
 # Places
 
 @docs Place
 @docs place
-@docs withExit, withObject
+@docs withExit, withObject, getExitName
 
 # Objects
 
@@ -344,8 +345,8 @@ type alias World = Skald.World.World
 
 {-| The current place of the player in the given world.
 -}
-currentPlace : World -> Place
-currentPlace =
+getCurrentPlace : World -> Place
+getCurrentPlace =
   Skald.World.currentPlace
 
 {-| Retrieves the place with the given name from the given world.
@@ -391,8 +392,8 @@ withObject =
 
 {-| `exitName direction place`
 -}
-exitName : String -> Place -> Maybe String
-exitName =
+getExitName : String -> Place -> Maybe String
+getExitName =
   Skald.Place.exitName
 
 -- object ----------------------------------------------------------------------
