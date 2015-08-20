@@ -191,7 +191,7 @@ go args world =
     [ direction ] ->
       case Place.exitName direction (World.currentPlace world) of
         Just newPlace ->
-          enterPlace (World.getPlace newPlace world) world
+          enterPlace (World.place newPlace world) world
 
         Nothing ->
           error "You can't go that way." world

@@ -12,7 +12,7 @@ module Skald.World
   , empty
   , setPlaces
   , updatePlaces
-  , getPlace
+  , place
   , currentPlace
   , setCurrentPlace
   , removeObject
@@ -112,12 +112,10 @@ updatePlaces f (World world) =
   World { world | places <- f world.places }
 
 
--- TODO: "get" prefix seems redundant.
-
 {-| Retrieves the place with the given name from the given world.
 -}
-getPlace : String -> World -> Place
-getPlace name world =
+place : String -> World -> Place
+place name world =
   case Dict.get name (places world) of
     Just place -> place
     Nothing -> Place.empty
@@ -127,7 +125,7 @@ getPlace name world =
 -}
 currentPlace : World -> Place
 currentPlace (World world) =
-  getPlace world.currentPlace (World world)
+  place world.currentPlace (World world)
 
 
 {-| Sets the current place in the given world.
