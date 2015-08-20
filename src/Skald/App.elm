@@ -39,10 +39,9 @@ run tale =
 startUp : Tale -> Model -> Model
 startUp tale model =
   let
-    newModel = Model.setWorld (Tale.initialWorld tale) model
-    world = Model.world newModel
+    world = Tale.initialWorld tale
     (description, newWorld) =
       Action.enterPlace (World.currentPlace world) world
   in
-    Model.setWorld newWorld newModel
+    Model.setWorld newWorld model
       |> Model.appendHistory description

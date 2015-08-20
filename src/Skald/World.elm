@@ -201,6 +201,7 @@ item : String -> World -> Maybe Object
 item name (World world) =
   Dict.get name world.inventory
 
+
 {-|
 -}
 updateInventory : (Inventory -> Inventory) -> World -> World

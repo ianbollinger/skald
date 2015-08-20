@@ -11,7 +11,6 @@ module Skald.Update
 {-|
 -}
 
-import Dict exposing (Dict)
 import Html exposing (Html)
 import Html.Attributes exposing (style)
 import String
