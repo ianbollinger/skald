@@ -113,7 +113,9 @@ defaultMap =
     |> insert "go(?:\\s+to)?(?:\\s+(\\S*))?" go
     |> insert "(?:take|get)(?:\\s+(\\S*))?" take
     |> insert "drop(?:\\s+(\\S*))?" drop
+    |> insert "(north|east|south|west|n|e|s|w)" goShorthand
 --    |> insert "debug" debug
+
 
 {-|
 -}
@@ -160,6 +162,24 @@ describeObject : Object -> Action
 describeObject object =
   say (Object.description object)
 
+
+goShorthand : Handler
+goShorthand args world =
+  case args of
+    [ "n" ] ->
+      go ["north"] world
+
+    [ "e" ] ->
+      go ["east"] world
+
+    [ "s" ] ->
+      go ["south"] world
+
+    [ "w" ] ->
+      go ["west"] world
+
+    [ _ ] ->
+      go args world
 
 {-|
 -}
