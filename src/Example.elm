@@ -16,7 +16,8 @@ main =
     |> run
 
 theRoom =
-  place "The Room" "A nondescript room."
+  place "The Room"
+    |> withDescription "A nondescript room."
     |> withExit "north" "The Other Room"
     |> withObject potato
 
@@ -24,7 +25,8 @@ potato =
   object "potato" "An irregularly shaped potato."
 
 otherRoom =
-  place "The Other Room" "Not very creative, is it?"
+  place "The Other Room"
+    |> withDescription "Not very creative, is it?"
     |> withExit "south" "The Room"
 
 think args =

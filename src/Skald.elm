@@ -46,6 +46,8 @@ module Skald
 
   , Place
   , place
+  , withDescription
+  , whenDescribing
   , withExit
   , withObject
   , getExitName
@@ -95,7 +97,8 @@ module Skald
 
 @docs Place
 @docs place
-@docs withExit, withObject, getExitName, getObject
+@docs withDescription, whenDescribing, withExit, withObject, getExitName,
+      getObject
 
 # Objects
 
@@ -370,11 +373,25 @@ getItem =
 type alias Place = Skald.Place.Place
 
 
-{-| Creates a new place with the given name and description
+{-| Creates a new place with the given name.
 -}
-place : String -> String -> Place
+place : String -> Place
 place =
   Skald.Place.place
+
+
+{-|
+-}
+withDescription : String -> Place -> Place
+withDescription =
+  Skald.Place.withDescription
+
+
+{-|
+-}
+whenDescribing : (Place -> String) -> Place -> Place
+whenDescribing =
+  Skald.Place.whenDescribing
 
 
 {-| `withExit direction exitName place`

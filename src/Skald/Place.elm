@@ -16,6 +16,8 @@ module Skald.Place
   , object
   , updateObjects
   , empty
+  , withDescription
+  , whenDescribing
   , withExit
   , withObject
   ) where
@@ -33,7 +35,7 @@ import Skald.Object as Object exposing (Object)
 type Place =
   Place
     { name : String
-    , description : String
+    , description : Place -> String
     , exits : Exits
     , objects : Objects
     }
@@ -65,7 +67,7 @@ toString (Place place) =
   in
     "Place
             { name = \"" ++ place.name ++ "\"
-            , description = \"" ++ place.description ++ "\"
+            , description = \"" ++ description (Place place) ++ "\"
             , exits = " ++ exitsToString ++ "
             , objects = " ++ objectsToString ++ "
             }"
@@ -73,11 +75,11 @@ toString (Place place) =
 
 {-| See `Skald.elm` for documentation.
 -}
-place : String -> String -> Place
-place name description =
+place : String -> Place
+place name =
   Place
     { name = name
-    , description = description
+    , description = always ""
     , exits = Dict.empty
     , objects = Dict.empty
     }
@@ -94,7 +96,7 @@ name (Place place) =
 -}
 description : Place -> String
 description (Place place) =
-  place.description
+  place.description (Place place)
 
 
 {-|
@@ -136,8 +138,22 @@ updateObjects f (Place place) =
 -}
 empty : Place
 empty =
-  place "An Error"
-    "It's likely the author forgot to add `|> thatBeginsIn place` to her tale."
+  -- TODO: make this impossible!
+  place "An error has occurred"
+
+
+{-| See `Skald.elm` for documentation.
+-}
+withDescription : String -> Place -> Place
+withDescription description (Place place) =
+  Place { place | description <- always description }
+
+
+{-| See `Skald.elm` for documentation.
+-}
+whenDescribing : (Place -> String) -> Place -> Place
+whenDescribing describer (Place place) =
+  Place { place | description <- describer }
 
 
 {-| See `Skald.elm` for documentation.
