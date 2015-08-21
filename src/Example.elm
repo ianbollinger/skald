@@ -17,7 +17,10 @@ main =
 
 theRoom =
   place "The Room"
-  |> withDescription "A nondescript room."
+  |> whenDescribing (\x ->
+      if not (isVisited x)
+      then "You see before you a nondescript room."
+      else "The room was no more interesting than when you last saw it.")
   |> withExit "north" "The Other Room"
   |> withObject potato
 
@@ -42,8 +45,8 @@ throw args world =
       case getItem name world of
         Just object ->
           say ("You throw the **" ++ name ++ "** at nothing in particular.") world
-            `andThen` removeFromInventory object
-            `andThen` createObject object
+          `andThen` removeFromInventory object
+          `andThen` createObject object
         Nothing ->
           error "You don't have such a thing." world
     _ ->
