@@ -12,6 +12,8 @@ module Skald.Place
   , description
   , exits
   , exitName
+  , visited
+  , setVisited
   , objects
   , object
   , updateObjects
@@ -38,6 +40,7 @@ type Place =
     , description : Place -> String
     , exits : Exits
     , objects : Objects
+    , visited : Bool
     }
 
 
@@ -82,6 +85,7 @@ place name =
     , description = always ""
     , exits = Dict.empty
     , objects = Dict.empty
+    , visited = False
     }
 
 
@@ -125,6 +129,20 @@ exits (Place place) =
 exitName : String -> Place -> Maybe String
 exitName exit (Place place) =
   Dict.get exit place.exits
+
+
+{-| See `Skald.elm` for documentation.
+-}
+visited : Place -> Bool
+visited (Place place) =
+  place.visited
+
+
+{-|
+-}
+setVisited : Bool -> Place -> Place
+setVisited visited (Place place) =
+  Place { place | visited <- visited }
 
 
 {-|

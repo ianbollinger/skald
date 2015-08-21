@@ -52,6 +52,7 @@ module Skald
   , withObject
   , getExitName
   , getObject
+  , isVisited
 
   , Object
   , object
@@ -90,15 +91,22 @@ module Skald
 # Worlds
 
 @docs World
-@docs getCurrentPlace, getPlace
-@docs getItem
+@docs getCurrentPlace, getPlace, getItem
 
 # Places
+@docs Place, place
 
-@docs Place
-@docs place
-@docs withDescription, whenDescribing, withExit, withObject, getExitName,
-      getObject
+## Descriptions
+@docs withDescription, whenDescribing
+
+## Exits
+@docs withExit, getExitName
+
+## Child objects
+@docs withObject, getObject
+
+## Miscellaneous
+@docs isVisited
 
 # Objects
 
@@ -339,6 +347,13 @@ withPlace =
 withCommand : String -> Skald.Action.Handler -> Tale -> Tale
 withCommand =
   Skald.Tale.withCommand
+
+
+{-|
+-}
+isVisited : Place -> Bool
+isVisited =
+  Skald.Place.visited
 
 -- world -----------------------------------------------------------------------
 

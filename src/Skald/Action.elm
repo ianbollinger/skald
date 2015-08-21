@@ -308,8 +308,9 @@ error string world =
 {-|
 -}
 enterPlace : Place -> Action
-enterPlace place =
-  describePlace place << World.setCurrentPlace place
+enterPlace place world =
+  describePlace (Place.setVisited True place)
+    <| World.setCurrentPlace place world
 
 
 {-| See `Skald.elm` for documentation.
