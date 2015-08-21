@@ -309,8 +309,14 @@ error string world =
 -}
 enterPlace : Place -> Action
 enterPlace place world =
-  describePlace (Place.setVisited True place)
-    <| World.setCurrentPlace place world
+  setCurrentPlace place world
+    `andThen` describePlace place
+    `andThen` setCurrentPlace (Place.setVisited True place)
+
+
+setCurrentPlace : Place -> Action
+setCurrentPlace place =
+  toAction (World.setCurrentPlace place)
 
 
 {-| See `Skald.elm` for documentation.
