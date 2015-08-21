@@ -20,7 +20,7 @@ theRoom =
   |> whenDescribing (\x ->
       if not (isVisited x)
       then "You see before you a nondescript room."
-      else "The room was no more interesting than when you last saw it.")
+      else "The room is no more interesting than when you last saw it.")
   |> withExit "north" "The Other Room"
   |> withObject potato
 
