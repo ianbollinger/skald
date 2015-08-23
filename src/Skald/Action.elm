@@ -103,7 +103,7 @@ mapFirst operation predicate list =
 -}
 insert : String -> Handler -> Map -> Map
 insert string handler map =
-  (regex ("^" ++ string ++ "$"), handler) :: map
+  (regex ("^(?:" ++ string ++ ")$"), handler) :: map
 
 
 {-|
@@ -113,6 +113,7 @@ defaultMap =
   insert "(?:examine|look(?: at)?|x)(?: (\\S*))?" look []
     |> insert "go(?: to)?(?: (\\S*))?" go
     |> insert "(?:take|get)(?: (\\S*))?" take
+    |> insert "(?:take )?inventory|i" inventory
     |> insert "drop(?: (\\S*))?" drop
     |> insert "(north(?:east|west)|east|south(?:east|west)|west|up|down|[neswud]|ne|nw|se|sw)" goShorthand
 --    |> insert "debug" debug
@@ -242,6 +243,17 @@ drop args world =
       error "Drop what?" world
 
 
+inventory : Handler
+inventory args world =
+  let
+    message =
+      if Dict.isEmpty (World.inventory world)
+      then format "You have nothing."
+      else format "You have:"
+  in
+    (message :: listInventory world, world)
+
+
 {-| See `Skald.elm` for documentation.
 -}
 andThen : Result -> Action -> Result
@@ -357,6 +369,14 @@ listObjects =
     formatObject name = format ("You see a **" ++ name ++ "** here.")
   in
     List.map formatObject << Dict.keys << Place.objects
+
+
+{-|
+-}
+listInventory : World -> List Html
+listInventory =
+  -- TODO: display proper article; punctuate list properly.
+  List.map (\x -> format ("* a " ++ x)) << Dict.keys << World.inventory
 
 -- html ------------------------------------------------------------------------
 
