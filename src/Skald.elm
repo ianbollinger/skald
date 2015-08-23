@@ -56,6 +56,7 @@ module Skald
 
   , Object
   , object
+  , scenery
 
   , Action
   , andThen
@@ -111,7 +112,7 @@ module Skald
 # Objects
 
 @docs Object
-@docs object
+@docs object, scenery
 
 # Commands
 
@@ -448,6 +449,13 @@ type alias Object = Skald.Object.Object
 object : String -> String -> Object
 object =
   Skald.Object.object
+
+
+{-| Creates a new scenery object with the given name and description.
+-}
+scenery : String -> String -> Object
+scenery =
+  Skald.Object.scenery
 
 -- action ----------------------------------------------------------------------
 

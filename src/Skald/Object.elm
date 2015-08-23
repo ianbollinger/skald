@@ -7,8 +7,10 @@
 module Skald.Object
   ( Object
   , object
+  , scenery
   , name
   , description
+  , fixedInPlace
   ) where
 
 {-|
@@ -20,6 +22,7 @@ type Object =
   Object
     { name : String
     , description : String
+    , fixedInPlace : Bool
     }
 
 
@@ -30,6 +33,18 @@ object name description =
   Object
     { name = name
     , description = description
+    , fixedInPlace = False
+    }
+
+
+{-| See `Skald.elm` for documentation.
+-}
+scenery : String -> String -> Object
+scenery name description =
+  Object
+    { name = name
+    , description = description
+    , fixedInPlace = True
     }
 
 
@@ -45,3 +60,10 @@ name (Object object) =
 description : Object -> String
 description (Object object) =
   object.description
+
+
+{-|
+-}
+fixedInPlace : Object -> Bool
+fixedInPlace (Object object) =
+  object.fixedInPlace

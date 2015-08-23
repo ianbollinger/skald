@@ -208,9 +208,13 @@ take args world =
     [ name ] ->
       case Place.object name (World.currentPlace world) of
         Just found ->
-          addToInventory found world
-            `andThen` destroyObject found
-            `andThen` say ("You take the **" ++ name ++ "**.")
+          if Object.fixedInPlace found
+            then
+              error "You can't take that." world
+            else
+              addToInventory found world
+                `andThen` destroyObject found
+                `andThen` say ("You take the **" ++ name ++ "**.")
 
         Nothing ->
           error "You can't see such a thing." world

@@ -22,10 +22,14 @@ theRoom =
       then "You see before you a nondescript room."
       else "The room is no more interesting than when you last saw it.")
   |> withExit "north" "The Other Room"
+  |> withObject table
   |> withObject potato
 
 potato =
   object "potato" "An irregularly shaped potato."
+
+table =
+  scenery "table" "An oak table."
 
 otherRoom =
   place "The Other Room"
