@@ -114,7 +114,7 @@ defaultMap =
     |> insert "go(?: to)?(?: (\\S*))?" go
     |> insert "(?:take|get)(?: (\\S*))?" take
     |> insert "drop(?: (\\S*))?" drop
-    |> insert "(north|east|south|west|n|e|s|w)" goShorthand
+    |> insert "(north(?:east|west)|east|south(?:east|west)|west|up|down|[neswud]|ne|nw|se|sw)" goShorthand
 --    |> insert "debug" debug
 
 
