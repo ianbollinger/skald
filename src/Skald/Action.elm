@@ -112,11 +112,10 @@ defaultMap : Map
 defaultMap =
   -- TODO: split up look and look [object].
   insert "(?:describe|examine|look(?: at)?|l|x)(?: (\\S*))?" look []
-    |> insert "go(?: to)?(?: (\\S*))?" go
+    |> insert "(north(?:east|west)|east|south(?:east|west)|west|up|down|[neswud]|ne|nw|se|sw)|go(?: to)?(?: (\\S*))?" go
     |> insert "(?:take|get)(?: (\\S*))?" take
     |> insert "(?:take )?inventory|i" inventory
     |> insert "drop(?: (\\S*))?" drop
-    |> insert "(north(?:east|west)|east|south(?:east|west)|west|up|down|[neswud]|ne|nw|se|sw)" goShorthand
     |> insert "wait|z" wait
 --    |> insert "debug" debug
 
@@ -167,30 +166,41 @@ describeObject object =
   say (Object.description object)
 
 
-goShorthand : Handler
-goShorthand args =
-  case args of
-    [ "n" ] ->
-      go ["north"]
-
-    [ "e" ] ->
-      go ["east"]
-
-    [ "s" ] ->
-      go ["south"]
-
-    [ "w" ] ->
-      go ["west"]
-
-    _ ->
-      go args
-
-
 {-|
 -}
 go : Handler
 go args world =
   case args of
+    [ "n" ] ->
+      go ["north"] world
+
+    [ "ne" ] ->
+      go ["northeast"] world
+
+    [ "e" ] ->
+      go ["east"] world
+
+    [ "se" ] ->
+      go ["southeast"] world
+
+    [ "s" ] ->
+      go ["south"] world
+
+    [ "sw" ] ->
+      go ["southwest"] world
+
+    [ "w" ] ->
+      go ["west"] world
+
+    [ "nw" ] ->
+      go ["northwest"] world
+
+    [ "u" ] ->
+      go ["up"] world
+
+    [ "d" ] ->
+      go ["down"] world
+
     [ direction ] ->
       case Place.exitName direction (World.currentPlace world) of
         Just newPlace ->
@@ -259,6 +269,7 @@ inventory args world =
 wait : Handler
 wait args =
   say "Time passes."
+
 
 {-| See `Skald.elm` for documentation.
 -}
