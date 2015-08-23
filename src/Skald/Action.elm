@@ -110,7 +110,7 @@ insert string handler map =
 -}
 defaultMap : Map
 defaultMap =
-  insert "(?:examine|look(?: at)?|x)(?: (\\S*))?" look []
+  insert "(?:describe|examine|look(?: at)?|x)(?: (\\S*))?" look []
     |> insert "go(?: to)?(?: (\\S*))?" go
     |> insert "(?:take|get)(?: (\\S*))?" take
     |> insert "(?:take )?inventory|i" inventory
