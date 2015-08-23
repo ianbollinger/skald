@@ -117,6 +117,7 @@ defaultMap =
     |> insert "(?:take )?inventory|i" inventory
     |> insert "drop(?: (\\S*))?" drop
     |> insert "(north(?:east|west)|east|south(?:east|west)|west|up|down|[neswud]|ne|nw|se|sw)" goShorthand
+    |> insert "wait|z" wait
 --    |> insert "debug" debug
 
 
@@ -254,6 +255,10 @@ inventory args world =
   in
     (message :: listInventory world, world)
 
+
+wait : Handler
+wait args =
+  say "Time passes."
 
 {-| See `Skald.elm` for documentation.
 -}
