@@ -112,7 +112,8 @@ defaultMap : Map
 defaultMap =
   -- TODO: split up look and look [object].
   insert "(?:describe|examine|look(?: at)?|l|x)(?: (.+))?" look []
-    |> insert "(north(?:east|west)|east|south(?:east|west)|west|up|down|[neswud]|ne|nw|se|sw)|go(?: to)?(?: (.+))?" go
+    |> insert "search(?: (.+))?" search
+    |> insert "(north(?:east|west)?|east|south(?:east|west)?|west|up|down|[neswud]|ne|nw|se|sw)|go(?: to)?(?: (.+))?" go
     |> insert "(?:take|get)(?: (.+))?" take
     |> insert "(?:take )?inventory|i" inventory
     |> insert "drop(?: (.+))?" drop
@@ -157,6 +158,22 @@ look args world =
 
               Nothing ->
                 error "You can't see such a thing." world
+
+
+{-|
+-}
+search : Handler
+search args world =
+  case args of
+    [] ->
+      let
+        place = World.currentPlace world
+        formatObject names = "You find " ++ list names ++ " here."
+      in
+        say (formatObject (Dict.keys (Place.objects place))) world
+
+    [ _ ] ->
+      say "You find nothing." world
 
 
 {-| See `Skald.elm` for documentation.
@@ -378,22 +395,29 @@ listExits =
 
 {-|
 -}
-listObjects : Place -> List Html
-listObjects =
-  let
-    formatObject name = format ("You see a **" ++ name ++ "** here.")
-  in
-    List.map formatObject << Dict.keys << Place.objects
-
-
-{-|
--}
 listInventory : World -> List Html
 listInventory =
   -- TODO: display proper article; punctuate list properly.
   List.map (\x -> format ("* a " ++ x)) << Dict.keys << World.inventory
 
 -- html ------------------------------------------------------------------------
+
+
+list : List String -> String
+list strings =
+  case strings of
+    [] ->
+      ""
+
+    [ x ] ->
+      x
+
+    x :: [ y ] ->
+      x ++ ", and " ++ y
+
+    x :: xs ->
+      x ++ ", " ++ list xs
+
 
 -- TODO: rename.
 {-|
