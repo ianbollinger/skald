@@ -9,21 +9,38 @@ import Skald exposing (..)
 main =
   tale "Example"
   |> by "Ian D. Bollinger"
-  |> thatBeginsIn theRoom
+  |> thatBeginsIn library
   |> withPlace otherRoom
   |> withCommand "think(?: about)?(?: (\\S+))?" think
   |> withCommand "throw(?: (\\S+))?" throw
   |> run
 
-theRoom =
-  place "The Room"
+library =
+  place "Library"
   |> whenDescribing (\x ->
-      if not (isVisited x)
-      then "You see before you a nondescript room."
-      else "The room is no more interesting than when you last saw it.")
+      (if not (isVisited x)
+      then
+        "The myriad shelves of the once grand library had been looted decades
+        ago."
+      else
+        "The bookcases were bare.")
+      ++
+        " An alcove to the east housed a broken bench and the shattered
+        remains of a stained glass window.")
   |> withExit "north" "The Other Room"
-  |> withObject table
+  |> withObject shelves
+  |> withObject stainedGlassWindow
   |> withObject potato
+
+shelves =
+  scenery "shelves"
+    "The shelves were bare and blanketed with dust. Occasionally, a scrap of
+    parchment could be seen."
+
+stainedGlassWindow =
+  scenery "window"
+    "What once adorned the window one could only guess; its shattered remnants
+    let in a moist draft."
 
 potato =
   object "potato" "An irregularly shaped potato."
@@ -34,7 +51,7 @@ table =
 otherRoom =
   place "The Other Room"
   |> withDescription "Not very creative, is it?"
-  |> withExit "south" "The Room"
+  |> withExit "south" "Library"
 
 think args =
   case args of
