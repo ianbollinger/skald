@@ -361,8 +361,6 @@ describePlace place world =
       [ heading (Place.name place)
       , format (Place.description place)
       ]
-        ++ listExits place
-        ++ listObjects place
   in
     (html, world)
 
