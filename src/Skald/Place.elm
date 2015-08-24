@@ -21,7 +21,7 @@ module Skald.Place
   , withDescription
   , whenDescribing
   , withExit
-  , withObject
+  , containing
   ) where
 
 {-|
@@ -183,6 +183,10 @@ withExit exit to (Place from) =
 
 {-| See `Skald.elm` for documentation.
 -}
-withObject : Object -> Place -> Place
-withObject object =
-  updateObjects (Dict.insert (Object.name object) object)
+containing : List Object -> Place -> Place
+containing objects =
+  let
+    update x =
+      List.foldr (\object -> Dict.insert (Object.name object) object) x objects
+  in
+    updateObjects update

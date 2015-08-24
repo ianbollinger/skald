@@ -49,7 +49,7 @@ module Skald
   , withDescription
   , whenDescribing
   , withExit
-  , withObject
+  , containing
   , getExitName
   , getObject
   , isVisited
@@ -104,7 +104,7 @@ module Skald
 @docs withExit, getExitName
 
 ## Child objects
-@docs withObject, getObject
+@docs containing, getObject
 
 ## Miscellaneous
 @docs isVisited
@@ -417,11 +417,11 @@ withExit =
   Skald.Place.withExit
 
 
-{-| Adds the given object to the given place.
+{-| Adds the given objects to the given place.
 -}
-withObject : Object -> Place -> Place
-withObject =
-  Skald.Place.withObject
+containing : List Object -> Place -> Place
+containing =
+  Skald.Place.containing
 
 
 {-| `exitName direction place`

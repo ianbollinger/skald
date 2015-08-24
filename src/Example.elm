@@ -28,9 +28,7 @@ library =
         " An alcove to the east housed a broken bench and the shattered
         remains of a stained glass window.")
   |> withExit "north" "The Other Room"
-  |> withObject shelves
-  |> withObject stainedGlassWindow
-  |> withObject potato
+  |> containing [ shelves, stainedGlassWindow, potato ]
 
 shelves =
   scenery "shelves"
@@ -40,13 +38,10 @@ shelves =
 stainedGlassWindow =
   scenery "window"
     "What once adorned the window one could only guess; its shattered remnants
-    let in a moist draft."
+    let in a damp draft."
 
 potato =
   object "potato" "An irregularly shaped potato."
-
-table =
-  scenery "table" "An oak table."
 
 otherRoom =
   place "The Other Room"
