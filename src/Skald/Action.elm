@@ -111,11 +111,11 @@ insert string handler map =
 defaultMap : Map
 defaultMap =
   -- TODO: split up look and look [object].
-  insert "(?:describe|examine|look(?: at)?|l|x)(?: (.+))?" look []
+  insert "(?:describe|examine|look(?: at)?|l|x|check|watch)(?: (.+))?" look []
     |> insert "search(?: (.+))?" search
     |> insert "(north(?:east|west)?|east|south(?:east|west)?|west|up|down|[neswud]|ne|nw|se|sw)|go(?: to)?(?: (.+))?" go
     |> insert "(?:take|get)(?: (.+))?" take
-    |> insert "(?:take )?inventory|i" inventory
+    |> insert "(?:take )?inventory|i|inv" inventory
     |> insert "drop(?: (.+))?" drop
     |> insert "wait|z" wait
 --    |> insert "debug" debug
