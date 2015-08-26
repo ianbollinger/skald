@@ -10,7 +10,7 @@ main =
   tale "Example"
   |> by "Ian D. Bollinger"
   |> thatBeginsIn library
-  |> withPlace otherRoom
+  |> withPlace gallery
   |> withCommand "think(?: about)?(?: (.+))?" think
   |> withCommand "throw(?: (\\.+))?" throw
   |> run
@@ -27,7 +27,7 @@ library =
       ++
         " An alcove to the east housed a broken bench and the shattered
         remains of a stained glass window.")
-  |> withExit "north" "The Other Room"
+  |> withExit "north" "Gallery"
   |> containing [ shelves, stainedGlassWindow, potato ]
 
 shelves =
@@ -37,15 +37,15 @@ shelves =
 
 stainedGlassWindow =
   scenery "window"
-    "What once adorned the window one could only guess; its shattered remnants
-    let in a damp draft."
+    "What image once adorned the window one could only guess; its shattered
+    remnants let in a damp draft."
 
 potato =
   object "potato" "An irregularly shaped potato."
 
-otherRoom =
-  place "The Other Room"
-  |> withDescription "Not very creative, is it?"
+gallery =
+  place "Gallery"
+  |> withDescription "The walls were bare."
   |> withExit "south" "Library"
 
 think args =
